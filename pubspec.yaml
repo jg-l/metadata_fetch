@@ -1,7 +1,7 @@
 name: metadata_fetch
 description: A library for fetching metadata from websites
 version: 0.1.0
-homepage: https://www.example.com
+homepage: https://github.com/jg-l/metadata_fetch
 
 environment:
   sdk: '>=2.4.0 <3.0.0'
