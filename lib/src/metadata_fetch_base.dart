@@ -38,13 +38,14 @@ class MetadataFetch {
       return null;
     }
 
-    return extractMetadata(output, document);
+    return _extractMetadata(output, document);
   }
 
-  static Map<String, String> extractMetadata(
+  static Map<String, String> _extractMetadata(
       Map<String, String> m, Document document) {
     m = _getOpenGraphData(document);
-    if (!m.containsKey('title') || !m.containsKey('description')) {
+    if (!m.containsKey(enumToString(MetadataProperty.title)) ||
+        !m.containsKey(enumToString(MetadataProperty.description))) {
       m = _getMetaHtmlData(document);
     }
     return m;
@@ -73,7 +74,6 @@ class MetadataFetch {
   static Map<String, String> _getMetaHtmlData(Document document) {
     var metadata = document.head.querySelectorAll('meta');
 
-    // get title
     var titleElement = document.head.querySelector('title');
 
     var data = Map<String, String>();
