@@ -10,6 +10,7 @@ dependencies:
   path: ^1.6.0
   http: ^0.12.0+4
   string_validator: ^0.1.3
+  tml: ^0.14.0+3
 
 dev_dependencies:
   pedantic: ^1.8.0

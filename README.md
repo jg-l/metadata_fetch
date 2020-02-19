@@ -32,6 +32,6 @@ However this one tries to be more general.
 - Implement json-ld parser for schema metadata.
 
 
-## Bugs
-Please file feature requests and bugs at the [issue tracker][https://github.com/jg-l/metadata_fetch/issues].
+## Questions, Bugs, and Feature Requests
+Please forward all queries about this project to the [issue tracker](https://github.com/jg-l/metadata_fetch/issues).
 
