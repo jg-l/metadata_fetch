@@ -24,7 +24,7 @@ main() async {
 ```
 
 ## Credit
-This library is inspired by[open_graph_parser](https://github.com/Patte1808/open_graph_parser). 
+This library is inspired by [open_graph_parser](https://github.com/Patte1808/open_graph_parser). 
 However this one tries to be more general.
 
 
@@ -33,6 +33,5 @@ However this one tries to be more general.
 
 
 ## Bugs
-Please file feature requests and bugs at the [issue tracker][tracker].
+Please file feature requests and bugs at the [issue tracker][https://github.com/jg-l/metadata_fetch/issues].
 
-[tracker]: http://example.com/issues/replaceme
