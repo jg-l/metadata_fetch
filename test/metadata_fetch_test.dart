@@ -10,7 +10,7 @@ void main() {
 
   test('FB Test', () async {
     var data = await MetadataFetch.getMetadata("https://facebook.com/");
-    print(data["image"]);
+    print(data?["image"]);
     expect(data.isEmpty, false);
   });
 

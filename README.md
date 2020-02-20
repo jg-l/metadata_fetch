@@ -1,5 +1,5 @@
 # Metadata Fetch
-A dart library for extracing metadata on web pages such as OpenGraph, Meta, and soon, Twitter-Cards and json+LD Schemas.
+A dart library for extracting metadata on web pages such as OpenGraph, Meta, and soon, Twitter-Cards and json+LD Schemas.
 
 
 ## Usage
