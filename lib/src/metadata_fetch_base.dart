@@ -12,6 +12,9 @@ final _requiredMetadata = [
 final _optionalMetadata = [MetadataProperty.image];
 
 class MetadataFetch {
+  // getMetadata fetches the metadata from a given url
+  // It returns a Map<String,String> with title, description, and if found, an image
+  // This doesn't throw errors, rather it returns null
   static Future<Map<String, String>> getMetadata(String url) async {
     if (!isURL(url)) {
       return null;

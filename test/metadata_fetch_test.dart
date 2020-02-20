@@ -4,6 +4,13 @@ import 'package:test/test.dart';
 void main() {
   test('First Test', () async {
     var data = await MetadataFetch.getMetadata("https://flutter.dev/");
+    print(data);
+    expect(data.isEmpty, false);
+  });
+
+  test('FB Test', () async {
+    var data = await MetadataFetch.getMetadata("https://facebook.com/");
+    print(data["image"]);
     expect(data.isEmpty, false);
   });
 

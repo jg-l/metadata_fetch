@@ -1,6 +1,4 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+/// Metadata Fetch Library
 library metadata_fetch;
 
 export 'src/metadata_fetch_base.dart';

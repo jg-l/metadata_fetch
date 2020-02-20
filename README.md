@@ -1,27 +1,36 @@
-A library for extracing metadata on web pages.
-
-- First, it checks if there are OpenGraph tags present
-- If there are missing metadata, it will parse for html `<meta>` and `<title>` tags
-- If none are found, a `Map` will return the url as a `title` and a `null` as `description`.
+# Metadata Fetch
+A dart library for extracing metadata on web pages such as OpenGraph, Meta, and soon, Twitter-Cards and json+LD Schemas.
 
 
 ## Usage
 
-
-Using this library is very simple.
+### Fetch Metadata for a given URL
 
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
 
 main() async {
-  var data = await MetadataFetch.getMetadata(
-        "https://flutter.dev/");
-  // data will always have a title and description, sometimes an image
-  print(data['title'])
+  var data = await MetadataFetch.getMetadata("https://flutter.dev/");
+
+  print(data['title']) // Flutter - Beautiful native apps in record time
   print(data['description'])
-  print(data['image'])
+  print(data['image']) // https://flutter.dev/images/flutter-logo-sharing.png
 }
 ```
+
+### Bad URL
+
+```dart
+import 'package:metadata_fetch/metadata_fetch.dart';
+
+main() async {
+  var data = await MetadataFetch.getMetadata("https://broken/");
+
+  print(data) // null
+
+}
+```
+
 
 ## Credit
 This library is inspired by [open_graph_parser](https://github.com/Patte1808/open_graph_parser). 
@@ -29,6 +38,7 @@ However this one tries to be more general.
 
 
 ## Roadmap
+- Improve Documentation
 - Implement json-ld parser for schema metadata.
 
 

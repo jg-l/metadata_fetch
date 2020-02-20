@@ -1,6 +1,7 @@
 name: metadata_fetch
-description: A library for fetching metadata from websites
-version: 0.1.0
+description: A library for fetching metadata from websites. It parses OpenGraph tags first, then parses HTML meta as a fallback.
+version: 0.2.0
+author: Jethro Lising
 homepage: https://github.com/jg-l/metadata_fetch
 
 environment:
