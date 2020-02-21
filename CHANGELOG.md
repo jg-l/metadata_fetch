@@ -1,3 +1,8 @@
+## 0.2.0
+
+- Improve API and generalized the Metadata Parser
+- Added more documentation
+
 ## 0.1.1
 
 - Various improvements throughout

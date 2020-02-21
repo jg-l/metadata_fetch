@@ -1,35 +1,72 @@
 # Metadata Fetch
-A dart library for extracting metadata on web pages such as OpenGraph, Meta, and soon, Twitter-Cards and json+LD Schemas.
+A dart library for extracting metadata on web pages such as OpenGraph, Meta, and soon, Twitter-Cards and json-LD Schemas.
 
 
 ## Usage
 
-### Fetch Metadata for a given URL
+
+### Extract Metadata for a given URL
 
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
 
 main() async {
-  var data = await MetadataFetch.getMetadata("https://flutter.dev/");
+  var data = extract("https://flutter.dev/"); // Use the extract() function to fetch data from the url
 
-  print(data['title']) // Flutter - Beautiful native apps in record time
-  print(data['description'])
-  print(data['image']) // https://flutter.dev/images/flutter-logo-sharing.png
+  print(data.title) // Flutter - Beautiful native apps in record time
+
+  print(data.description) // Flutter is Google's UI toolkit for crafting beautiful...
+
+  print(data.image) // https://flutter.dev/images/flutter-logo-sharing.png
+
+  var dataAsMap = data.toMap();
+
 }
 ```
 
-### Bad URL
+### Parsing Manually
+
+#### OpenGraphParser and HTMLMetaParser
+
+```dart
+import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as parser;
+
+void main () {
+
+  // Makes a call
+  var response = await http.get('https://flutter.dev');
+
+  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  var document = responseToDocument(response);
+
+
+  // Get OpenGraph Metadata
+  var og_data = OpenGraphParser(document);
+
+  // Get HTML metadata
+  var html_data = OpenGraphParser(document);
+
+  // Do work with the data
+  print(og_data.title)
+  print(html_data.title)
+
+}
+
+```
+
+### No Errors, Only Nulls
 
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
 
 main() async {
-  var data = await MetadataFetch.getMetadata("https://broken/");
-
+  var data = await extract("https://invalid*broken_url/");
   print(data) // null
-
 }
 ```
+
 
 
 ## Credit
