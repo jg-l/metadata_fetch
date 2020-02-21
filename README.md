@@ -45,7 +45,7 @@ void main () async {
   var og_data = OpenGraphParser(document);
 
   // Get HTML metadata
-  var html_data = OpenGraphParser(document);
+  var html_data = HTMLMetaParser(document);
 
   // Do work with the data
   print(og_data.title)

@@ -4,9 +4,10 @@ import 'package:html/parser.dart' as parser;
 import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:html/dom.dart';
 import 'package:metadata_fetch/src/parsers/parsers.dart';
+import 'package:metadata_fetch/src/utils/util.dart';
 import 'package:string_validator/string_validator.dart';
 
-/// Fetches a [url], validates it, and returns [Map<String, String>] of metadata.
+/// Fetches a [url], validates it, and returns [Metadata].
 Future<Metadata> extract(String url) async {
   if (!isURL(url)) {
     return null;
@@ -14,7 +15,7 @@ Future<Metadata> extract(String url) async {
 
   /// Sane defaults; Always return the Domain name as the [title], and a [description] for a given [url]
   var default_output = Metadata();
-  default_output.title = Uri.parse(url)?.host.toString().split('.')[0];
+  default_output.title = getDomain(url);
   default_output.description = url;
 
   // Make our network call
@@ -32,7 +33,7 @@ Future<Metadata> extract(String url) async {
   return data;
 }
 
-/// Takes an [http.Response] and returns a [dom.Document]
+/// Takes an [http.Response] and returns a [http.Document]
 Document responseToDocument(http.Response response) {
   if (response.statusCode != 200) {
     return null;
@@ -78,7 +79,7 @@ Metadata _defaultStrategy(Document document) {
   return output;
 }
 
-/// Returns instance of [Metadata] with data extracted from the [document]
+/// Returns instance of [Metadata] with data extracted from the [http.Document]
 ///
 /// Future: Can pass in a strategy i.e: to retrieve only OpenGraph, or OpenGraph and Json+LD only
 Metadata _extractMetadata(Document document) {

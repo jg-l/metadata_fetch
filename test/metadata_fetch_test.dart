@@ -64,6 +64,7 @@ void main() {
     test('Gooogle Test', () async {
       var data = await extract('https://google.ca');
       expect(data.toMap().isEmpty, false);
+      expect(data.title, 'Google');
     });
 
     test('Invalid Url Test', () async {
