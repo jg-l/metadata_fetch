@@ -26,7 +26,7 @@ class MetadataFetch {
     };
 
     var response = await http.get(url);
-    var document = _responseToDocument(response);
+    var document = responseToDocument(response);
 
     if (document == null) {
       return default_output;
@@ -38,7 +38,7 @@ class MetadataFetch {
     return data;
   }
 
-  static Document _responseToDocument(http.Response response) {
+  static Document responseToDocument(http.Response response) {
     if (response.statusCode != 200) {
       return null;
     }
