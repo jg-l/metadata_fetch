@@ -31,9 +31,8 @@ main() async {
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
 
-void main () {
+void main () async {
 
   // Makes a call
   var response = await http.get('https://flutter.dev');

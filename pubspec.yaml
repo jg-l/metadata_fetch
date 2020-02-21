@@ -1,5 +1,5 @@
 name: metadata_fetch
-description: A library for fetching metadata from websites. It parses OpenGraph tags first, then parses HTML meta as a fallback.
+description: A dart library for extracting metadata on web pages such as OpenGraph, Meta, and soon, Twitter-Cards and json-LD Schemas.
 version: 0.2.0
 homepage: https://github.com/jg-l/metadata_fetch
 
