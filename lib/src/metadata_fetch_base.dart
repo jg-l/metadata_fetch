@@ -15,51 +15,65 @@ class MetadataFetch {
   // getMetadata fetches the metadata from a given url
   // It returns a Map<String,String> with title, description, and if found, an image
   // This doesn't throw errors, rather it returns null
-  static Future<Map<String, String>> getMetadata(String url) async {
+  static Future<Map<String, String>> extract(String url) async {
     if (!isURL(url)) {
       return null;
     }
+
+    final default_output = {
+      'title': Uri.parse(url)?.host.toString().split('.')[0],
+      'description': url,
+    };
+
     var response = await http.get(url);
-    var output = _parseResponse(response);
-    if (output == null) {
-      return {'title': url, 'description': null};
+    var document = _responseToDocument(response);
+
+    if (document == null) {
+      return default_output;
     }
-    return output;
+    var data = _extractMetadata(document);
+    if (data == null) {
+      return default_output;
+    }
+    return data;
   }
 
-  static Map<String, String> _parseResponse(http.Response response) {
+  static Document _responseToDocument(http.Response response) {
     if (response.statusCode != 200) {
       return null;
     }
-
-    var output = Map<String, String>();
 
     Document document;
     try {
       document = parser.parse(utf8.decode(response.bodyBytes));
     } catch (err) {
-      return null;
+      return document;
     }
 
-    return _extractMetadata(output, document);
+    return document;
   }
 
-  static Map<String, String> _extractMetadata(
-      Map<String, String> m, Document document) {
-    m = _getOpenGraphData(document);
-    if (!m.containsKey(enumToString(MetadataProperty.title)) ||
-        !m.containsKey(enumToString(MetadataProperty.description))) {
-      m = _getMetaHtmlData(document);
+  // Loads the parser for each provider
+  // openGraph
+  // jsonLD
+  // meta
+  static Map<String, String> _extractMetadata(Document document) {
+    var output = Map<String, String>();
+
+    // Start with OpenGraph
+    _getOpenGraphData(output, document);
+    if (!output.containsKey(enumToString(MetadataProperty.title)) ||
+        !output.containsKey(enumToString(MetadataProperty.description))) {
+      _getMetaHtmlData(output, document);
     }
-    return m;
+    return output;
   }
 
-  static Map<String, String> _getOpenGraphData(Document document) {
-    var metadata = document.head.querySelectorAll("[property*='og:']");
+  static Map<String, String> _getOpenGraphData(
+      Map<String, String> data, Document document) {
+    var elements = document.head.querySelectorAll("[property*='og:']");
 
-    var data = Map<String, String>();
-
-    metadata.forEach((element) {
+    elements.forEach((element) {
       var tagProperty = element.attributes['property'].split('og:')[1];
       var tagContent = element.attributes['content'];
 
@@ -74,18 +88,17 @@ class MetadataFetch {
     return data;
   }
 
-  static Map<String, String> _getMetaHtmlData(Document document) {
-    var metadata = document.head.querySelectorAll('meta');
+  static Map<String, String> _getMetaHtmlData(
+      Map<String, String> data, Document document) {
+    var metaElements = document.head.querySelectorAll('meta');
 
     var titleElement = document.head.querySelector('title');
-
-    var data = Map<String, String>();
 
     if (titleElement != null) {
       data[enumToString(MetadataProperty.title)] = titleElement.text;
     }
 
-    metadata.forEach((element) {
+    metaElements.forEach((element) {
       var tagProperty = element.attributes['name'];
       var tagContent = element.attributes['content'];
 

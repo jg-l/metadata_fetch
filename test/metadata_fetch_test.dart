@@ -3,29 +3,32 @@ import 'package:test/test.dart';
 
 void main() {
   test('First Test', () async {
-    var data = await MetadataFetch.getMetadata("https://flutter.dev/");
+    var data = await MetadataFetch.extract("https://flutter.dev/");
     print(data);
     expect(data.isEmpty, false);
   });
 
   test('FB Test', () async {
-    var data = await MetadataFetch.getMetadata("https://facebook.com/");
-    print(data?["image"]);
+    var data = await MetadataFetch.extract("https://facebook.com/");
+    print(data);
     expect(data.isEmpty, false);
   });
 
-  test('UTF8 Rune Test', () async {
-    var data = await MetadataFetch.getMetadata("https://www.jpf.go.jp/");
+  test('Unicode Test', () async {
+    var data = await MetadataFetch.extract("https://www.jpf.go.jp/");
+    print(data);
     expect(data.isEmpty, false);
   });
 
   test('Gooogle Test', () async {
-    var data = await MetadataFetch.getMetadata("https://google.ca");
+    var data = await MetadataFetch.extract("https://google.ca");
+    print(data);
     expect(data.isEmpty, false);
   });
 
   test('Invalid Url Test', () async {
-    var data = await MetadataFetch.getMetadata("https://google");
+    var data = await MetadataFetch.extract("https://google");
+    print(data);
     expect(data == null, true);
   });
 }
