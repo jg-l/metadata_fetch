@@ -1,5 +1,5 @@
 # Metadata Fetch
-A dart library for extracting metadata on web pages such as OpenGraph, Meta, and soon, Twitter-Cards and json-LD Schemas.
+A dart library for extracting metadata in web pages. Supports OpenGraph, Meta, and Structured Data (Json-LD)
 
 
 ## Usage
@@ -26,7 +26,8 @@ main() async {
 
 ### Parsing Manually
 
-#### OpenGraphParser and HTMLMetaParser
+#### Get aggregated Metadata from a document
+
 
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
@@ -41,19 +42,80 @@ void main () async {
   var document = responseToDocument(response);
 
 
-  // Get OpenGraph Metadata
-  var og_data = OpenGraphParser(document);
+  // get metadata
+  var data = MetadataParser.parse(document);
+  print(data);
 
-  // Get HTML metadata
-  var html_data = HTMLMetaParser(document);
-
-  // Do work with the data
-  print(og_data.title)
-  print(html_data.title)
 
 }
 
 ```
+
+#### Get Open Graph Metadata
+
+```dart
+import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:http/http.dart' as http;
+
+void main () async {
+
+  // Makes a call
+  var response = await http.get('https://flutter.dev');
+
+  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  var document = responseToDocument(response);
+
+
+  // get metadata
+  var data = MetadataParser.OpenGraph(document);
+  print(data);
+
+
+}
+
+```
+
+#### Get Html Metadata
+```dart
+import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:http/http.dart' as http;
+
+void main () async {
+
+  // Makes a call
+  var response = await http.get('https://flutter.dev');
+
+  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  var document = responseToDocument(response);
+
+
+  // get metadata
+  var data = MetadataParser.HtmlMeta(document);
+  print(data);
+}
+```
+
+#### Get Structured Data (Json+LD)
+```dart
+import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:http/http.dart' as http;
+
+void main () async {
+
+  // Makes a call
+  var response = await http.get('https://flutter.dev');
+
+  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  var document = responseToDocument(response);
+
+
+  // Just Json-ld schema
+  var data = MetadataParser.JsonLdSchema(document);
+  print(data);
+}
+```
+
+
 
 ### No Errors, Only Nulls
 

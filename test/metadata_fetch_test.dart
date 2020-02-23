@@ -1,20 +1,79 @@
 import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:http/http.dart' as http;
+import 'package:metadata_fetch/src/parsers/jsonld_parser.dart';
 import 'package:metadata_fetch/src/parsers/parsers.dart';
 import 'package:test/test.dart';
 
 void main() {
   // TODO: Use a Mock Server for testing
+
+  test('Metadata Parser', () async {
+    var url = 'https://flutter.dev';
+    var response = await http.get(url);
+    var document = responseToDocument(response);
+
+    var data = MetadataParser.parse(document);
+    print(data);
+
+    // Just Opengraph
+    var og = MetadataParser.OpenGraph(document);
+    print(og);
+
+    // Just Html
+    var hm = MetadataParser.HtmlMeta(document);
+    print(hm);
+
+    // Just Json-ld schema
+    var js = MetadataParser.JsonLdSchema(document);
+    print(js);
+  });
   group('Metadata parsers', () {
+    test('JSONLD', () async {
+      var url = 'https://www.epicurious.com/';
+      var response = await http.get(url);
+      var document = responseToDocument(response);
+      // print(response.statusCode);
+
+      print(JsonLdParser(document));
+    });
+
+    test('JSONLD II', () async {
+      var url =
+          'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
+      var response = await http.get(url);
+      var document = responseToDocument(response);
+      // print(response.statusCode);
+
+      print(JsonLdParser(document));
+    });
+
+    test('JSONLD III', () async {
+      var url =
+          'https://medium.com/@quicky316/install-flutter-sdk-on-windows-without-android-studio-102fdf567ce4';
+      var response = await http.get(url);
+      var document = responseToDocument(response);
+      // print(response.statusCode);
+
+      print(JsonLdParser(document));
+    });
+
+    test('JSONLD IV', () async {
+      var url = 'https://www.distilled.net/';
+      var response = await http.get(url);
+      var document = responseToDocument(response);
+      // print(response.statusCode);
+
+      print(JsonLdParser(document));
+    });
     test('HTML', () async {
       var url = 'https://flutter.dev';
       var response = await http.get(url);
       var document = responseToDocument(response);
       print(response.statusCode);
 
-      print(HTMLMetaParser(document).title);
-      print(HTMLMetaParser(document).description);
-      print(HTMLMetaParser(document).image);
+      print(HtmlMetaParser(document).title);
+      print(HtmlMetaParser(document).description);
+      print(HtmlMetaParser(document).image);
     });
 
     test('OpenGraph Parser', () async {
@@ -23,10 +82,12 @@ void main() {
       var document = responseToDocument(response);
       print(response.statusCode);
 
+      print(OpenGraphParser(document));
       print(OpenGraphParser(document).title);
       print(OpenGraphParser(document).description);
       print(OpenGraphParser(document).image);
     });
+
     test('Faulty', () async {
       var url = 'https://google.ca';
       var response = await http.get(url);
@@ -37,9 +98,9 @@ void main() {
       print(OpenGraphParser(document).description);
       print(OpenGraphParser(document).image);
 
-      print(HTMLMetaParser(document).title);
-      print(HTMLMetaParser(document).description);
-      print(HTMLMetaParser(document).image);
+      print(HtmlMetaParser(document).title);
+      print(HtmlMetaParser(document).description);
+      print(HtmlMetaParser(document).image);
     });
   });
 
@@ -64,7 +125,7 @@ void main() {
     test('Gooogle Test', () async {
       var data = await extract('https://google.ca');
       expect(data.toMap().isEmpty, false);
-      expect(data.title, 'Google');
+      expect(data.title, 'google');
     });
 
     test('Invalid Url Test', () async {

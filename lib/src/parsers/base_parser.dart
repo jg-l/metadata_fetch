@@ -4,6 +4,14 @@ abstract class BaseMetadataParser {
   String description;
   String image;
 
+  Metadata parse() {
+    var m = Metadata();
+    m.title = title;
+    m.description = description;
+    m.image = image;
+    return m;
+  }
+
   Map<String, String> toMap() {
     return {
       'title': title,

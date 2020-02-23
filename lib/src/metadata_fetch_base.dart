@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'package:html/dom.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:metadata_fetch/metadata_fetch.dart';
-import 'package:html/dom.dart';
 import 'package:metadata_fetch/src/parsers/parsers.dart';
 import 'package:metadata_fetch/src/utils/util.dart';
 import 'package:string_validator/string_validator.dart';
@@ -33,7 +33,7 @@ Future<Metadata> extract(String url) async {
   return data;
 }
 
-/// Takes an [http.Response] and returns a [http.Document]
+/// Takes an [http.Response] and returns a [html.Document]
 Document responseToDocument(http.Response response) {
   if (response.statusCode != 200) {
     return null;
@@ -49,39 +49,9 @@ Document responseToDocument(http.Response response) {
   return document;
 }
 
-/// This is the default strategy for building our [Metadata]
-///
-/// It tries [OpenGraphParser], and falls back to [HTMLMetaParser] tags for missing data.
-Metadata _defaultStrategy(Document document) {
-  var output = Metadata();
-  // Default Strategy
-  var openGraph = OpenGraphParser(document);
-  var htmlMeta = HTMLMetaParser(document); // returns a Metadata
-
-  var parsers = [openGraph, htmlMeta];
-
-  for (final p in parsers) {
-    output.title ??= p.title;
-    output.description ??= p.description;
-    output.image ??= p.image;
-
-    // is there a cleaner way?
-    final hasEmpty = ((output.title == null ||
-            output.description == null ||
-            output.image == null) ==
-        true);
-
-    if (!hasEmpty) {
-      break;
-    }
-  }
-
-  return output;
-}
-
-/// Returns instance of [Metadata] with data extracted from the [http.Document]
+/// Returns instance of [Metadata] with data extracted from the [html.Document]
 ///
 /// Future: Can pass in a strategy i.e: to retrieve only OpenGraph, or OpenGraph and Json+LD only
 Metadata _extractMetadata(Document document) {
-  return _defaultStrategy(document);
+  return MetadataParser.parse(document);
 }

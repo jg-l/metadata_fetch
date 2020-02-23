@@ -4,11 +4,11 @@ import 'package:metadata_fetch/src/utils/util.dart';
 import 'base_parser.dart';
 
 /// Takes a [http.document] and parses [Metadata] from [<meta>, <title>, <img>] tags
-class HTMLMetaParser extends BaseMetadataParser {
+class HtmlMetaParser extends BaseMetadataParser {
   /// The [document] to be parse
   Document document;
 
-  HTMLMetaParser(this.document);
+  HtmlMetaParser(this.document);
 
   /// Get the [Metadata.title] from the [<title>] tag
   @override
