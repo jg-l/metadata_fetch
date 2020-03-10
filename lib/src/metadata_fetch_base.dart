@@ -14,18 +14,19 @@ Future<Metadata> extract(String url) async {
   }
 
   /// Sane defaults; Always return the Domain name as the [title], and a [description] for a given [url]
-  var default_output = Metadata();
+  final default_output = Metadata();
   default_output.title = getDomain(url);
   default_output.description = url;
 
   // Make our network call
-  var response = await http.get(url);
-  var document = responseToDocument(response);
+  final response = await http.get(url);
+  final document = responseToDocument(response);
 
   if (document == null) {
     return default_output;
   }
-  var data = _extractMetadata(document);
+
+  final data = _extractMetadata(document);
   if (data == null) {
     return default_output;
   }
@@ -42,6 +43,7 @@ Document responseToDocument(http.Response response) {
   Document document;
   try {
     document = parser.parse(utf8.decode(response.bodyBytes));
+    document.requestUrl = response.request.url.toString();
   } catch (err) {
     return document;
   }

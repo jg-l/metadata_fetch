@@ -3,12 +3,15 @@ abstract class BaseMetadataParser {
   String title;
   String description;
   String image;
+  String url;
 
   Metadata parse() {
     var m = Metadata();
     m.title = title;
     m.description = description;
     m.image = image;
+    m.url = url;
+
     return m;
   }
 
@@ -17,6 +20,7 @@ abstract class BaseMetadataParser {
       'title': title,
       'description': description,
       'image': image,
+      'url': url,
     };
   }
 

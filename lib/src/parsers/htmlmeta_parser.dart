@@ -12,7 +12,9 @@ class HtmlMetaParser extends BaseMetadataParser {
 
   /// Get the [Metadata.title] from the [<title>] tag
   @override
-  String get title => document?.head?.querySelector('title')?.text;
+  String get title => document?.head
+      ?.querySelector('title')
+      ?.text;
 
   /// Get the [Metadata.description] from the <meta name="description" content=""> tag
   @override
@@ -23,6 +25,12 @@ class HtmlMetaParser extends BaseMetadataParser {
 
   /// Get the [Metadata.image] from the first <img> tag in the body;s
   @override
-  String get image =>
-      document?.body?.querySelector('img')?.attributes?.get('src');
+  String get image =>  document?.body
+      ?.querySelector('img')
+      ?.attributes
+      ?.get('src');
+
+  /// Get the [Document.url] from the Document extension.
+  @override
+  String get url => document.requestUrl;
 }
