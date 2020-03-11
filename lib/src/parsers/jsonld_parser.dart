@@ -16,7 +16,7 @@ class JsonLdParser extends BaseMetadataParser {
   }
 
   dynamic _parseToJson(Document document) {
-    var data = document?.head
+    final data = document?.head
         ?.querySelector("script[type='application/ld+json']")
         ?.innerHtml;
     if (data == null) {
@@ -29,7 +29,7 @@ class JsonLdParser extends BaseMetadataParser {
   /// Get the [Metadata.title] from the [<title>] tag
   @override
   String get title {
-    var data = _jsonData;
+    final data = _jsonData;
     if (data is List) {
       return data?.first['name'];
     } else if (data is Map) {
@@ -41,7 +41,7 @@ class JsonLdParser extends BaseMetadataParser {
   /// Get the [Metadata.description] from the <meta name="description" content=""> tag
   @override
   String get description {
-    var data = _jsonData;
+    final data = _jsonData;
     if (data is List) {
       return data?.first['description'] ?? data?.first['headline'];
     } else if (data is Map) {
@@ -53,12 +53,16 @@ class JsonLdParser extends BaseMetadataParser {
   /// Get the [Metadata.image] from the first <img> tag in the body;s
   @override
   String get image {
-    var data = _jsonData;
+    final data = _jsonData;
     if (data is List) {
-      return data?.first['logo'] ?? data?.first['image']?.first;
+      return data?.first['logo'] ?? data?.first['image'];
     } else if (data is Map) {
       return data?.get('logo') ?? data['image'][0];
     }
     return null;
   }
+
+  /// Get the [Document.url] from the Document extension.
+  @override
+  String get url => document.requestUrl;
 }

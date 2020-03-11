@@ -5,26 +5,29 @@ import 'package:metadata_fetch/metadata_fetch.dart';
 class MetadataParser {
   /// This is the default strategy for building our [Metadata]
   ///
-  /// It tries [OpenGraphParser], then [JsonLdParser], and falls back to [HTMLMetaParser] tags for missing data.
+  /// It tries [OpenGraphParser], then [TwitterCardParser], then [JsonLdParser], and falls back to [HTMLMetaParser] tags for missing data.
   static Metadata parse(Document document) {
-    var output = Metadata();
+    final output = Metadata();
 
-    var parsers = [
+    final parsers = [
       OpenGraph(document),
-      HtmlMeta(document),
+      TwitterCard(document),
       JsonLdSchema(document),
+      HtmlMeta(document),
     ];
 
     for (final p in parsers) {
       output.title ??= p.title;
       output.description ??= p.description;
       output.image ??= p.image;
+      output.url ??= p.url;
 
       // is there a cleaner way?
-      final hasEmpty = ((output.title == null ||
-              output.description == null ||
-              output.image == null) ==
-          true);
+      final hasEmpty = ((
+          output.title == null ||
+          output.description == null ||
+          output.image == null ||
+          output.url == null) == true);
 
       if (!hasEmpty) {
         break;
@@ -45,5 +48,9 @@ class MetadataParser {
 
   static Metadata JsonLdSchema(Document document) {
     return JsonLdParser(document).parse();
+  }
+
+  static Metadata TwitterCard(Document document) {
+    return TwitterCardParser(document).parse();
   }
 }

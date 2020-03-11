@@ -5,27 +5,34 @@ import 'base_parser.dart';
 
 /// Takes a [http.Document] and parses [Metadata] from [<meta property='og:*'>] tags
 class OpenGraphParser extends BaseMetadataParser {
-  Document document;
-  OpenGraphParser(this.document);
+  final Document _document;
+  OpenGraphParser(this._document);
 
   /// Get [Metadata.title] from 'og:title'
   @override
-  String get title => document?.head
+  String get title => _document?.head
       ?.querySelector("[property*='og:title']")
       ?.attributes
       ?.get('content');
 
   /// Get [Metadata.description] from 'og:description'
   @override
-  String get description => document?.head
+  String get description => _document?.head
       ?.querySelector("[property*='og:description']")
       ?.attributes
       ?.get('content');
 
   /// Get [Metadata.image] from 'og:image'
   @override
-  String get image => document?.head
+  String get image => _document?.head
       ?.querySelector("[property*='og:image']")
+      ?.attributes
+      ?.get('content');
+
+  /// Get [Metadata.url] from 'og:url'
+  @override
+  String get url => _document?.head
+      ?.querySelector("[property*='og:url']")
       ?.attributes
       ?.get('content');
 }
