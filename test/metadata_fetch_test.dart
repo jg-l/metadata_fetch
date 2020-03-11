@@ -17,15 +17,18 @@ void main() {
 
     // Just Opengraph
     var og = MetadataParser.OpenGraph(document);
-    print(og);
+    print('OG $og');
 
     // Just Html
     var hm = MetadataParser.HtmlMeta(document);
-    print(hm);
+    print('Html $hm');
 
     // Just Json-ld schema
     var js = MetadataParser.JsonLdSchema(document);
-    print(js);
+    print('JSON $js');
+
+    var twitter = MetadataParser.TwitterCard(document);
+    print('Twitter $twitter');
   });
   group('Metadata parsers', () {
     test('JSONLD', () async {
@@ -86,6 +89,21 @@ void main() {
       print(OpenGraphParser(document).title);
       print(OpenGraphParser(document).description);
       print(OpenGraphParser(document).image);
+    });
+
+    test('TwitterCard Parser', () async {
+      var url =
+          'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
+      var response = await http.get(url);
+      var document = responseToDocument(response);
+      print(response.statusCode);
+
+      print(TwitterCardParser(document));
+      print(TwitterCardParser(document).title);
+      print(TwitterCardParser(document).description);
+      print(TwitterCardParser(document).image);
+      // Test the url
+      print(TwitterCardParser(document).url);
     });
 
     test('Faulty', () async {
