@@ -1,3 +1,8 @@
+## 0.3.0
+
+- Added Twitter Card Parser
+- Metadata structure now includes url
+
 ## 0.2.1
 
 - Minor Improvements

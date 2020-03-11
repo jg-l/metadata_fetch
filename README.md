@@ -1,5 +1,5 @@
 # Metadata Fetch
-A dart library for extracting metadata in web pages. Supports OpenGraph, Meta, and Structured Data (Json-LD)
+A dart library for extracting metadata in web pages. Supports OpenGraph, Meta, Twitter Cards, and Structured Data (Json-LD)
 
 
 ## Usage
@@ -115,18 +115,28 @@ void main () async {
 }
 ```
 
-
-
-### No Errors, Only Nulls
-
+#### Get Twitter Cards Metadata 
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:http/http.dart' as http;
 
-main() async {
-  var data = await extract("https://invalid*broken_url/");
-  print(data) // null
+void main () async {
+
+  // Makes a call
+  var response = await http.get('https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article');
+
+  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  var document = responseToDocument(response);
+
+
+  // Just Json-ld schema
+  var data = MetadataParser.TwitterCard(document);
+  print(data);
 }
 ```
+
+
+
 
 
 
@@ -136,8 +146,8 @@ However this one tries to be more general.
 
 
 ## Roadmap
+- Weighted or Preferred Metadata. Can assign custom weights for each parser to provide a fallback priority sytem
 - Improve Documentation
-- Implement json-ld parser for schema metadata.
 
 
 ## Questions, Bugs, and Feature Requests

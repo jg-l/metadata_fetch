@@ -20,4 +20,7 @@ void main() async {
   // Just Json-ld schema
   var js = MetadataParser.JsonLdSchema(document);
   print(js);
+
+  var twitter = MetadataParser.TwitterCard(document);
+  print('Twitter $twitter');
 }
