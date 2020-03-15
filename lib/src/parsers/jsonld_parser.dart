@@ -6,7 +6,7 @@ import 'package:metadata_fetch/src/utils/util.dart';
 import 'base_parser.dart';
 
 /// Takes a [http.document] and parses [Metadata] from `json-ld` data in `<script>`
-class JsonLdParser extends BaseMetadataParser {
+class JsonLdParser with BaseMetadataParser {
   /// The [document] to be parse
   Document document;
   dynamic _jsonData;
@@ -62,7 +62,7 @@ class JsonLdParser extends BaseMetadataParser {
     return null;
   }
 
-  /// Get the [Document.url] from the Document extension.
+  /// Get the document request URL from Document's [HttpRequestData] extension.
   @override
-  String get url => document.requestUrl;
+  String get url => document?.requestUrl;
 }

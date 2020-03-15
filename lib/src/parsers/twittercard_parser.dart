@@ -4,7 +4,7 @@ import 'package:metadata_fetch/src/utils/util.dart';
 import 'base_parser.dart';
 
 /// Takes a [http.Document] and parses [Metadata] from [<meta property='twitter:*'>] tags
-class TwitterCardParser extends BaseMetadataParser {
+class TwitterCardParser with BaseMetadataParser {
   Document document;
   TwitterCardParser(this.document);
 
@@ -30,5 +30,5 @@ class TwitterCardParser extends BaseMetadataParser {
       ?.get('content');
 
   /// Get [Document.url]
-  String get url => document.requestUrl;
+  String get url => document?.requestUrl;
 }

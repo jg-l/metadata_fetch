@@ -1,34 +1,62 @@
 /// The base class for implementing a parser
-abstract class BaseMetadataParser {
+
+mixin MetadataKeys {
+  static const keyTitle = 'title';
+  static const keyDescription = 'description';
+  static const keyImage = 'image';
+  static const keyUrl = 'url';
+}
+
+mixin BaseMetadataParser {
   String title;
   String description;
   String image;
   String url;
 
   Metadata parse() {
-    var m = Metadata();
+    final m = Metadata();
     m.title = title;
     m.description = description;
     m.image = image;
     m.url = url;
-
     return m;
-  }
-
-  Map<String, String> toMap() {
-    return {
-      'title': title,
-      'description': description,
-      'image': image,
-      'url': url,
-    };
-  }
-
-  @override
-  String toString() {
-    return toMap().toString();
   }
 }
 
 /// Container class for Metadata
-class Metadata extends BaseMetadataParser {}
+class Metadata with BaseMetadataParser, MetadataKeys {
+  bool get hasAllMetadata {
+    return (
+        this.title != null &&
+        this.description != null &&
+        this.image != null &&
+        this.url != null
+    );
+  }
+
+  String toString() {
+    return toMap().toString();
+  }
+
+  Map<String, String> toMap() {
+    return {
+      MetadataKeys.keyTitle: title,
+      MetadataKeys.keyDescription: description,
+      MetadataKeys.keyImage: image,
+      MetadataKeys.keyUrl: url,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return toMap();
+  }
+
+  static fromJson(Map<String, dynamic> json) {
+    final m = Metadata();
+    m.title = json[MetadataKeys.keyTitle];
+    m.description = json[MetadataKeys.keyDescription];
+    m.image = json[MetadataKeys.keyImage];
+    m.url = json[MetadataKeys.keyUrl];
+    return m;
+  }
+}
