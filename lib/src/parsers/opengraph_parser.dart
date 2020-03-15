@@ -4,7 +4,7 @@ import 'package:metadata_fetch/src/utils/util.dart';
 import 'base_parser.dart';
 
 /// Takes a [http.Document] and parses [Metadata] from [<meta property='og:*'>] tags
-class OpenGraphParser extends BaseMetadataParser {
+class OpenGraphParser with BaseMetadataParser {
   final Document _document;
   OpenGraphParser(this._document);
 

@@ -22,17 +22,9 @@ class MetadataParser {
       output.image ??= p.image;
       output.url ??= p.url;
 
-      // is there a cleaner way?
-      final hasEmpty = ((
-          output.title == null ||
-          output.description == null ||
-          output.image == null ||
-          output.url == null) == true);
-
-      if (!hasEmpty) {
+      if (output.hasAllMetadata) {
         break;
       }
-      return output;
     }
 
     return output;

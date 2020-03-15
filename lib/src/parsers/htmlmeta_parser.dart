@@ -4,7 +4,7 @@ import 'package:metadata_fetch/src/utils/util.dart';
 import 'base_parser.dart';
 
 /// Takes a [http.document] and parses [Metadata] from [<meta>, <title>, <img>] tags
-class HtmlMetaParser extends BaseMetadataParser {
+class HtmlMetaParser with BaseMetadataParser {
   /// The [document] to be parse
   Document document;
 
@@ -32,5 +32,5 @@ class HtmlMetaParser extends BaseMetadataParser {
 
   /// Get the [Document.url] from the Document extension.
   @override
-  String get url => document.requestUrl;
+  String get url => document?.requestUrl;
 }
