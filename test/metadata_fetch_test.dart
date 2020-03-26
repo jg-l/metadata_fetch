@@ -4,8 +4,17 @@ import 'package:metadata_fetch/src/parsers/jsonld_parser.dart';
 import 'package:metadata_fetch/src/parsers/parsers.dart';
 import 'package:test/test.dart';
 
+// TODO: Use a Mock Server for testing
+// TODO: Improve testing
 void main() {
-  // TODO: Use a Mock Server for testing
+  test('JSON Serialization', () async {
+    var url = 'https://flutter.dev';
+    var response = await http.get(url);
+    var document = responseToDocument(response);
+    var data = MetadataParser.parse(document);
+    print(data.toJson());
+    expect(data.toJson().isNotEmpty, true);
+  });
 
   test('Metadata Parser', () async {
     var url = 'https://flutter.dev';
