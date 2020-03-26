@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Added JSON serialization
+
 ## 0.3.0
 
 - Added Twitter Card Parser

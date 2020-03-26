@@ -13,14 +13,12 @@ void main() async {
   var og = MetadataParser.OpenGraph(document);
   print(og);
 
-  // Just Html
   var hm = MetadataParser.HtmlMeta(document);
   print(hm);
 
-  // Just Json-ld schema
   var js = MetadataParser.JsonLdSchema(document);
   print(js);
 
   var twitter = MetadataParser.TwitterCard(document);
-  print('Twitter $twitter');
+  print(twitter);
 }

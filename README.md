@@ -28,6 +28,8 @@ main() async {
 
 #### Get aggregated Metadata from a document
 
+This method prioritizes Open Graph data, followed by Twitter Card, JSON-LD and finally falls back too HTML metadata.
+
 
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
@@ -129,7 +131,7 @@ void main () async {
   var document = responseToDocument(response);
 
 
-  // Just Json-ld schema
+  // Get Twitter Card metadata
   var data = MetadataParser.TwitterCard(document);
   print(data);
 }

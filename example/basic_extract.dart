@@ -5,4 +5,5 @@ void main() async {
   print(data); // Metadata.toString()
   print(data.title); // Metadata.title
   print(data.toMap()); // converts Metadata to map
+  print(data.toJson()); // converts Metadata to JSON
 }
