@@ -4,6 +4,10 @@ extension GetMethod on Map {
   String get(dynamic Key) {
     return (this[Key]);
   }
+
+  dynamic getDynamic(dynamic Key) {
+    return (this[Key]);
+  }
 }
 
 /// Adds getter/setter for the original [Response.request.url]

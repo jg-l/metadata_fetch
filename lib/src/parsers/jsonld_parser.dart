@@ -54,11 +54,24 @@ class JsonLdParser with BaseMetadataParser {
   @override
   String get image {
     final data = _jsonData;
-    if (data is List) {
-      return data?.first['logo'] ?? data?.first['image'];
+    if (data is List && data.isNotEmpty) {
+      return _imageResultToString(data?.first['logo'] ?? data?.first['image']);
     } else if (data is Map) {
-      return data?.get('logo') ?? data?.get('image');
+      return _imageResultToString(data?.getDynamic('logo') ?? data?.getDynamic('image'));
     }
+
+    return null;
+  }
+
+  String _imageResultToString(dynamic result) {
+    if (result is List && result.isNotEmpty) {
+      result = result.first;
+    }
+
+    if (result is String) {
+      return result;
+    }
+
     return null;
   }
 
