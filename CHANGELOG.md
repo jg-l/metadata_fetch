@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Improved JsonLD Parser
+
 ## 0.3.1
 
 - Added JSON serialization
