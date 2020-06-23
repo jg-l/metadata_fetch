@@ -19,7 +19,7 @@ class MetadataParser {
     for (final p in parsers) {
       output.title ??= p.title;
       output.description ??= p.description;
-      output.image ??= p.image;
+      output.image ??= _imageUrl(p);
       output.url ??= p.url;
 
       if (output.hasAllMetadata) {
@@ -28,6 +28,14 @@ class MetadataParser {
     }
 
     return output;
+  }
+
+  static String _imageUrl(Metadata data) {
+    String imageLink = data.image;
+    if (imageLink == null) return null;
+    if (imageLink.startsWith("http")) return imageLink;
+    var pageUrl = Uri.parse(data.url);
+    return pageUrl.scheme + "://" + pageUrl.host + imageLink;
   }
 
   static Metadata openGraph(Document document) {
