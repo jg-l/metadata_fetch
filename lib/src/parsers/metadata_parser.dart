@@ -10,10 +10,10 @@ class MetadataParser {
     final output = Metadata();
 
     final parsers = [
-      OpenGraph(document),
-      TwitterCard(document),
-      JsonLdSchema(document),
-      HtmlMeta(document),
+      openGraph(document),
+      twitterCard(document),
+      jsonLdSchema(document),
+      htmlMeta(document),
     ];
 
     for (final p in parsers) {
@@ -30,19 +30,19 @@ class MetadataParser {
     return output;
   }
 
-  static Metadata OpenGraph(Document document) {
+  static Metadata openGraph(Document document) {
     return OpenGraphParser(document).parse();
   }
 
-  static Metadata HtmlMeta(Document document) {
+  static Metadata htmlMeta(Document document) {
     return HtmlMetaParser(document).parse();
   }
 
-  static Metadata JsonLdSchema(Document document) {
+  static Metadata jsonLdSchema(Document document) {
     return JsonLdParser(document).parse();
   }
 
-  static Metadata TwitterCard(Document document) {
+  static Metadata twitterCard(Document document) {
     return TwitterCardParser(document).parse();
   }
 }
