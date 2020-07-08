@@ -1,3 +1,7 @@
+## 0.3.3
+
+- Relative image url now uses the absolute path
+
 ## 0.3.2
 
 - Improved JsonLD Parser
