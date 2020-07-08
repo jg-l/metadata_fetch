@@ -10,16 +10,16 @@ class MetadataParser {
     final output = Metadata();
 
     final parsers = [
-      OpenGraph(document),
-      TwitterCard(document),
-      JsonLdSchema(document),
-      HtmlMeta(document),
+      openGraph(document),
+      twitterCard(document),
+      jsonLdSchema(document),
+      htmlMeta(document),
     ];
 
     for (final p in parsers) {
       output.title ??= p.title;
       output.description ??= p.description;
-      output.image ??= p.image;
+      output.image ??= _imageUrl(p);
       output.url ??= p.url;
 
       if (output.hasAllMetadata) {
@@ -30,19 +30,27 @@ class MetadataParser {
     return output;
   }
 
-  static Metadata OpenGraph(Document document) {
+  static String _imageUrl(Metadata data) {
+    String imageLink = data.image;
+    if (imageLink == null) return null;
+    if (imageLink.startsWith("http")) return imageLink;
+    var pageUrl = Uri.parse(data.url);
+    return pageUrl.scheme + "://" + pageUrl.host + imageLink;
+  }
+
+  static Metadata openGraph(Document document) {
     return OpenGraphParser(document).parse();
   }
 
-  static Metadata HtmlMeta(Document document) {
+  static Metadata htmlMeta(Document document) {
     return HtmlMetaParser(document).parse();
   }
 
-  static Metadata JsonLdSchema(Document document) {
+  static Metadata jsonLdSchema(Document document) {
     return JsonLdParser(document).parse();
   }
 
-  static Metadata TwitterCard(Document document) {
+  static Metadata twitterCard(Document document) {
     return TwitterCardParser(document).parse();
   }
 }

@@ -1,12 +1,14 @@
 import 'package:html/dom.dart';
 
 extension GetMethod on Map {
-  String get(dynamic Key) {
-    return (this[Key]);
+  String get(dynamic key) {
+    var value = this[key];
+    if (value is List) return value.first;
+    return value.toString();
   }
 
-  dynamic getDynamic(dynamic Key) {
-    return (this[Key]);
+  dynamic getDynamic(dynamic key) {
+    return this[key];
   }
 }
 
