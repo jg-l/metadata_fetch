@@ -21,6 +21,8 @@ class MetadataParser {
       output.description ??= p.description;
       output.image ??= _imageUrl(p);
       output.url ??= p.url;
+      output.siteName ??= p.siteName;
+      output.type ??= p.type;
 
       if (output.hasAllMetadata) {
         break;

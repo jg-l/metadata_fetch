@@ -35,4 +35,18 @@ class OpenGraphParser with BaseMetadataParser {
       ?.querySelector("[property*='og:url']")
       ?.attributes
       ?.get('content');
+
+  /// Get [Metadata.siteName] from 'og:site_name'
+  @override
+  String get siteName => _document?.head
+      ?.querySelector("[property*='og:site_name']")
+      ?.attributes
+      ?.get('content');
+
+  /// Get [Metadata.type] from 'og:type'
+  @override
+  String get type => _document?.head
+      ?.querySelector("[property*='og:type']")
+      ?.attributes
+      ?.get('content');
 }
