@@ -35,6 +35,14 @@ class MetadataParser {
     if (imageLink == null) return null;
     if (imageLink.startsWith("http")) return imageLink;
     var pageUrl = Uri.parse(data.url);
+    if (!imageLink.startsWith("/")) {
+      // Some image srcs don't begin with a slash, so the image url ends up being
+      // weirdly mangled if it's just appended to the page host. Example:
+      // imageLink = "assets/someImg.png"
+      // http://example.comassets/someImg.png
+      // So this should fix that
+      imageLink = "/$imageLink";
+    }
     return pageUrl.scheme + "://" + pageUrl.host + imageLink;
   }
 
