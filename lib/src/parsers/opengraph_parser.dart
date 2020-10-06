@@ -10,29 +10,32 @@ class OpenGraphParser with BaseMetadataParser {
 
   /// Get [Metadata.title] from 'og:title'
   @override
-  String get title => _document?.head
-      ?.querySelector("[property*='og:title']")
-      ?.attributes
-      ?.get('content');
+  String get title => getProperty(
+        _document,
+        property: "og:title",
+      );
 
   /// Get [Metadata.description] from 'og:description'
   @override
-  String get description => _document?.head
-      ?.querySelector("[property*='og:description']")
-      ?.attributes
-      ?.get('content');
+  String get description => getProperty(
+        _document,
+        property: "og:description",
+      );
 
   /// Get [Metadata.image] from 'og:image'
   @override
-  String get image => _document?.head
-      ?.querySelector("[property*='og:image']")
-      ?.attributes
-      ?.get('content');
+  String get image => getProperty(
+        _document,
+        property: "og:image",
+      );
 
   /// Get [Metadata.url] from 'og:url'
   @override
-  String get url => _document?.head
-      ?.querySelector("[property*='og:url']")
-      ?.attributes
-      ?.get('content');
+  String get url => getProperty(
+        _document,
+        property: "og:url",
+      );
+
+  @override
+  String toString() => this.parse().toString();
 }

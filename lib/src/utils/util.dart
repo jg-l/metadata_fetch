@@ -23,9 +23,25 @@ extension HttpRequestData on Document {
   set requestUrl(String newValue) {
     _requestUrl = newValue;
   }
-
 }
 
 String getDomain(String url) {
   return Uri.parse(url)?.host.toString().split('.')[0];
+}
+
+String getProperty(
+  Document document, {
+  String tag = "meta",
+  String attribute = "property",
+  String property,
+  String key = "content",
+}) {
+  return document
+      ?.getElementsByTagName(tag)
+      ?.firstWhere(
+        (element) => element.attributes[attribute] == property,
+        orElse: () => null,
+      )
+      ?.attributes
+      ?.get(key);
 }
