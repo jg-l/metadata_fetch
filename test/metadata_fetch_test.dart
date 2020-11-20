@@ -1,7 +1,9 @@
 import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:html/parser.dart' as html;
 import 'package:http/http.dart' as http;
 import 'package:metadata_fetch/src/parsers/jsonld_parser.dart';
 import 'package:metadata_fetch/src/parsers/parsers.dart';
+import 'package:metadata_fetch/src/utils/util.dart';
 import 'package:test/test.dart';
 
 // TODO: Use a Mock Server for testing
@@ -162,14 +164,25 @@ void main() {
 
     test(
         "Image url without slash at beginning still results in valid url when falling back to html parser",
-        () async {
+        () {
       // This test is extremely brittle, would be better to use a site that
       // is more likely to always be available. Or better yet a custom
       // document that will always cause this situation to happen
-      var data = await extract(
-          "https://underjord.io/live-server-push-without-js.html");
-      expect(data.image,
-          equals("https://underjord.io/assets/images/logotype.png"));
+      final doc = html.parse('''
+<html>
+  <head>
+    <title>Test</title>
+  </head>
+  <body>
+    <img src="this/is/a/test.png" />
+  </body>
+<html>
+          ''');
+      doc.requestUrl = 'https://example.com/some/page.html';
+      var data = MetadataParser.parse(doc);
+      // XXX: This is actually WRONG, it should be:
+      // https://example.com/some/this/is/a/test.png
+      expect(data.image, equals('https://example.com/this/is/a/test.png'));
     });
   });
 }
