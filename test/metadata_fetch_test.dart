@@ -162,13 +162,7 @@ void main() {
       expect(data == null, true);
     });
 
-    test(
-        "Image url without slash at beginning still results in valid url when falling back to html parser",
-        () {
-      // This test is extremely brittle, would be better to use a site that
-      // is more likely to always be available. Or better yet a custom
-      // document that will always cause this situation to happen
-      final doc = html.parse('''
+    final htmlPage = '''
 <html>
   <head>
     <title>Test</title>
@@ -177,12 +171,27 @@ void main() {
     <img src="this/is/a/test.png" />
   </body>
 <html>
-          ''');
+        ''';
+
+    test(
+        "Image url without slash at beginning still results in valid url when falling back to html parser",
+        () {
+      final doc = html.parse(htmlPage);
       doc.requestUrl = 'https://example.com/some/page.html';
       var data = MetadataParser.parse(doc);
-      // XXX: This is actually WRONG, it should be:
-      // https://example.com/some/this/is/a/test.png
-      expect(data.image, equals('https://example.com/this/is/a/test.png'));
+      expect(data.image, equals('https://example.com/some/this/is/a/test.png'));
+    });
+
+    test(
+        "MetadataParser.parse(doc) works without a doc.requestUrl (relative URLs are just not resolved)",
+        () {
+      final doc = html.parse(htmlPage);
+      // XXX: This is sadly needed because doc.requestUrl is a global shared for
+      // all Document instances, so the value parsed in previous tests is
+      // still present.
+      doc.requestUrl = null;
+      var data = MetadataParser.parse(doc);
+      expect(data.image, equals('this/is/a/test.png'));
     });
   });
 }
