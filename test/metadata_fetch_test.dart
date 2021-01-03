@@ -161,15 +161,15 @@ void main() {
     });
 
     test(
-        "Image url without slash at beginning still results in valid url when falling back to html parser",
+        'Image url without slash at beginning still results in valid url when falling back to html parser',
         () async {
       // This test is extremely brittle, would be better to use a site that
       // is more likely to always be available. Or better yet a custom
       // document that will always cause this situation to happen
       var data = await extract(
-          "https://underjord.io/live-server-push-without-js.html");
+          'https://underjord.io/live-server-push-without-js.html');
       expect(data.image,
-          equals("https://underjord.io/assets/images/logotype.png"));
+          equals('https://underjord.io/assets/images/logotype.png'));
     });
   });
 }

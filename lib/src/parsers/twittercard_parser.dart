@@ -13,12 +13,12 @@ class TwitterCardParser with BaseMetadataParser {
   String get title =>
       getProperty(
         _document,
-        attribute: "name",
-        property: "twitter:title",
+        attribute: 'name',
+        property: 'twitter:title',
       ) ??
       getProperty(
         _document,
-        property: "twitter:title",
+        property: 'twitter:title',
       );
 
   /// Get [Metadata.description] from 'twitter:description'
@@ -26,12 +26,12 @@ class TwitterCardParser with BaseMetadataParser {
   String get description =>
       getProperty(
         _document,
-        attribute: "name",
-        property: "twitter:description",
+        attribute: 'name',
+        property: 'twitter:description',
       ) ??
       getProperty(
         _document,
-        property: "twitter:description",
+        property: 'twitter:description',
       );
 
   /// Get [Metadata.image] from 'twitter:image'
@@ -39,17 +39,18 @@ class TwitterCardParser with BaseMetadataParser {
   String get image =>
       getProperty(
         _document,
-        attribute: "name",
-        property: "twitter:image",
+        attribute: 'name',
+        property: 'twitter:image',
       ) ??
       getProperty(
         _document,
-        property: "twitter:image",
+        property: 'twitter:image',
       );
 
   /// Get [Document.url]
+  @override
   String get url => _document?.requestUrl;
 
   @override
-  String toString() => this.parse().toString();
+  String toString() => parse().toString();
 }

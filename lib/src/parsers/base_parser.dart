@@ -27,13 +27,14 @@ mixin BaseMetadataParser {
 class Metadata with BaseMetadataParser, MetadataKeys {
   bool get hasAllMetadata {
     return (
-        this.title != null &&
-        this.description != null &&
-        this.image != null &&
-        this.url != null
+        title != null &&
+        description != null &&
+        image != null &&
+        url != null
     );
   }
 
+  @override
   String toString() {
     return toMap().toString();
   }
@@ -51,7 +52,7 @@ class Metadata with BaseMetadataParser, MetadataKeys {
     return toMap();
   }
 
-  static fromJson(Map<String, dynamic> json) {
+  static Metadata fromJson(Map<String, dynamic> json) {
     final m = Metadata();
     m.title = json[MetadataKeys.keyTitle];
     m.description = json[MetadataKeys.keyDescription];
