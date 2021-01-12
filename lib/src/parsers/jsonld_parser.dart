@@ -81,5 +81,5 @@ class JsonLdParser with BaseMetadataParser {
   String get url => document?.requestUrl;
 
   @override
-  String toString() => this.parse().toString();
+  String toString() => parse().toString();
 }

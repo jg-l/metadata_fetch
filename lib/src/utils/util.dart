@@ -31,10 +31,10 @@ String getDomain(String url) {
 
 String getProperty(
   Document document, {
-  String tag = "meta",
-  String attribute = "property",
+  String tag = 'meta',
+  String attribute = 'property',
   String property,
-  String key = "content",
+  String key = 'content',
 }) {
   return document
       ?.getElementsByTagName(tag)

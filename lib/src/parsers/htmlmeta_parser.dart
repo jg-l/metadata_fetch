@@ -18,8 +18,8 @@ class HtmlMetaParser with BaseMetadataParser {
   @override
   String get description => getProperty(
         _document,
-        attribute: "name",
-        property: "og:url",
+        attribute: 'name',
+        property: 'og:url',
       );
 
   /// Get the [Metadata.image] from the first <img> tag in the body;s
@@ -32,5 +32,5 @@ class HtmlMetaParser with BaseMetadataParser {
   String get url => _document?.requestUrl;
 
   @override
-  String toString() => this.parse().toString();
+  String toString() => parse().toString();
 }
