@@ -19,7 +19,7 @@ class MetadataParser {
     for (final p in parsers) {
       output.title ??= p.title;
       output.description ??= p.description;
-      output.image ??= _imageUrl(p);
+      output.image ??= p.image;
       output.url ??= p.url;
 
       if (output.hasAllMetadata) {
@@ -27,23 +27,11 @@ class MetadataParser {
       }
     }
 
-    return output;
-  }
-
-  static String _imageUrl(Metadata data) {
-    String imageLink = data.image;
-    if (imageLink == null) return null;
-    if (imageLink.startsWith("http")) return imageLink;
-    var pageUrl = Uri.parse(data.url);
-    if (!imageLink.startsWith("/")) {
-      // Some image srcs don't begin with a slash, so the image url ends up being
-      // weirdly mangled if it's just appended to the page host. Example:
-      // imageLink = "assets/someImg.png"
-      // http://example.comassets/someImg.png
-      // So this should fix that
-      imageLink = "/$imageLink";
+    if (output.url != null && output.image != null) {
+      output.image = Uri.parse(output.url).resolve(output.image).toString();
     }
-    return pageUrl.scheme + "://" + pageUrl.host + imageLink;
+
+    return output;
   }
 
   static Metadata openGraph(Document document) {

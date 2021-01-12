@@ -1,3 +1,7 @@
+## 0.3.4
+
+- Fix resolution of relative URL for images
+
 ## 0.3.3
 
 - Relative image url now uses the absolute path
