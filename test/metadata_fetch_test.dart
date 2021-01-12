@@ -110,7 +110,8 @@ void main() {
       print(OpenGraphParser(document).title);
       Metadata data = OpenGraphParser(document).parse();
       expect(data.title, 'Drake - When To Say When & Chicago Freestyle');
-      expect(data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
+      expect(
+          data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
     });
 
     test('TwitterCard Parser', () async {
@@ -158,9 +159,11 @@ void main() {
     });
 
     test('Youtube Test', () async {
-      Metadata data = await extract('https://www.youtube.com/watch?v=0jz0GAFNNIo');
+      Metadata data =
+          await extract('https://www.youtube.com/watch?v=0jz0GAFNNIo');
       expect(data.title, 'Drake - When To Say When & Chicago Freestyle');
-      expect(data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
+      expect(
+          data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
     });
 
     test('Unicode Test', () async {
@@ -178,7 +181,6 @@ void main() {
       var data = await extract('https://google');
       expect(data == null, true);
     });
-
 
     final htmlPage = '''
 <html>
