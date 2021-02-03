@@ -8,10 +8,10 @@ mixin MetadataKeys {
 }
 
 mixin BaseMetadataParser {
-  String title;
-  String description;
-  String image;
-  String url;
+  String? title;
+  String? description;
+  String? image;
+  String? url;
 
   Metadata parse() {
     final m = Metadata();
@@ -26,12 +26,10 @@ mixin BaseMetadataParser {
 /// Container class for Metadata
 class Metadata with BaseMetadataParser, MetadataKeys {
   bool get hasAllMetadata {
-    return (
-        title != null &&
+    return (title != null &&
         description != null &&
         image != null &&
-        url != null
-    );
+        url != null);
   }
 
   @override
@@ -39,7 +37,7 @@ class Metadata with BaseMetadataParser, MetadataKeys {
     return toMap().toString();
   }
 
-  Map<String, String> toMap() {
+  Map<String, String?> toMap() {
     return {
       MetadataKeys.keyTitle: title,
       MetadataKeys.keyDescription: description,
