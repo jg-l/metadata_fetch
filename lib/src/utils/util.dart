@@ -38,9 +38,9 @@ String? getProperty(
 }) {
   return document
       ?.getElementsByTagName(tag)
-      .firstWhere((element) => element.attributes[attribute] == property,
-          orElse: () => Element.tag(tag) // FIXME: Cannot return null here
-          )
-      .attributes
+      .cast<Element?>()
+      .firstWhere((element) => element?.attributes[attribute] == property,
+          orElse: () => null)
+      ?.attributes
       .get(key);
 }
