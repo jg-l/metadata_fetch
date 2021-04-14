@@ -19,7 +19,7 @@ Future<Metadata> extract(String url) async {
   defaultOutput.description = url;
 
   // Make our network call
-  final response = await http.get(url);
+  final response = await http.get(Uri.parse(url));
 
   if (response.headers['content-type'].startsWith(r'image/')) {
     defaultOutput.title = '';
