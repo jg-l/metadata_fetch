@@ -11,174 +11,246 @@ import 'package:test/test.dart';
 void main() {
   test('JSON Serialization', () async {
     var url = 'https://flutter.dev';
-    var response = await http.get(url);
+    var response = await http.get(Uri.parse(url));
     var document = responseToDocument(response);
     var data = MetadataParser.parse(document);
-    print(data.toJson());
-    expect(data.toJson().isNotEmpty, true);
+    expect(data.toJson(), hasStringValue);
+    expect(data.title, hasStringValue);
+    expect(data.description, hasStringValue);
+    expect(data.url, hasStringValue);
+    expect(data.image, hasStringValue);
   });
 
-  test('Metadata Parser', () async {
+  group('Metadata Parser', () {
     var url = 'https://flutter.dev';
-    var response = await http.get(url);
-    var document = responseToDocument(response);
+    dynamic document;
 
-    var data = MetadataParser.parse(document);
-    print(data);
+    setUp(() async {
+      var response = await http.get(Uri.parse(url));
+      document = responseToDocument(response);
+    });
 
-    // Just Opengraph
-    var og = MetadataParser.openGraph(document);
-    print('OG $og');
+    test('parse', () {
+      var data = MetadataParser.parse(document);
+      expect(data.title, hasStringValue);
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
+    });
 
-    // Just Html
-    var hm = MetadataParser.htmlMeta(document);
-    print('Html $hm');
+    test('openGraph', () {
+      // Just Opengraph
+      var og = MetadataParser.openGraph(document);
+      expect(og.title, hasStringValue);
+      expect(og.description, hasStringValue);
+      expect(og.url, hasStringValue);
+      expect(og.image, hasStringValue);
+    });
 
-    // Just Json-ld schema
-    var js = MetadataParser.jsonLdSchema(document);
-    print('JSON $js');
+    test('htmlMeta', () {
+      // Just Html
+      var hm = MetadataParser.htmlMeta(document);
+      expect(hm.title, hasStringValue);
+      expect(hm.description, isNull);
+      expect(hm.url, hasStringValue);
+      expect(hm.image, hasStringValue);
+    });
 
-    var twitter = MetadataParser.twitterCard(document);
-    print('Twitter $twitter');
+    test('jsonLdSchema', () {
+      // Just Json-ld schema
+      var js = MetadataParser.jsonLdSchema(document);
+      expect(js.title, isNull);
+      expect(js.description, isNull);
+      expect(js.url, hasStringValue);
+      expect(js.image, isNull);
+    });
+
+    test('twitterCard', () {
+      var twitter = MetadataParser.twitterCard(document);
+      expect(twitter.title, isNull);
+      expect(twitter.description, isNull);
+      expect(twitter.url, hasStringValue);
+      expect(twitter.image, isNull);
+    });
   });
+
   group('Metadata parsers', () {
     test('JSONLD', () async {
       var url = 'https://www.epicurious.com/';
-      var response = await http.get(url);
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
       // print(response.statusCode);
 
-      print(JsonLdParser(document));
+      final data = JsonLdParser(document);
+      expect(data.title, hasStringValue);
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
+      expect(data.image, isNull);
     });
 
     test('JSONLD II', () async {
-      var url =
-          'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
-      var response = await http.get(url);
+      var url = 'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
       // print(response.statusCode);
 
-      print(JsonLdParser(document));
+      final data = JsonLdParser(document);
+      expect(data.title, hasStringValue);
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
     });
 
     test('JSONLD III', () async {
       var url =
           'https://medium.com/@quicky316/install-flutter-sdk-on-windows-without-android-studio-102fdf567ce4';
-      var response = await http.get(url);
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
       // print(response.statusCode);
 
-      print(JsonLdParser(document));
+      final data = JsonLdParser(document);
+      expect(data.title, hasStringValue);
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
     });
 
     test('JSONLD IV', () async {
       var url = 'https://www.distilled.net/';
-      var response = await http.get(url);
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
       // print(response.statusCode);
 
-      print(JsonLdParser(document));
+      var data = JsonLdParser(document);
+      expect(data.title, hasStringValue);
+      expect(data.description, isNull);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
     });
     test('HTML', () async {
       var url = 'https://flutter.dev';
-      var response = await http.get(url);
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
-      print(response.statusCode);
 
-      print(HtmlMetaParser(document).title);
-      print(HtmlMetaParser(document).description);
-      print(HtmlMetaParser(document).image);
+      final data = HtmlMetaParser(document);
+
+      expect(data.title, hasStringValue);
+      expect(data.description, isNull);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
     });
 
     test('OpenGraph Parser', () async {
       var url = 'https://flutter.dev';
-      var response = await http.get(url);
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
-      print(response.statusCode);
 
-      print(OpenGraphParser(document));
-      print(OpenGraphParser(document).title);
-      print(OpenGraphParser(document).description);
-      print(OpenGraphParser(document).image);
+      var data = OpenGraphParser(document);
+      expect(data.title, hasStringValue);
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
     });
 
     test('OpenGraph Youtube Test', () async {
       String url = 'https://www.youtube.com/watch?v=0jz0GAFNNIo';
-      var response = await http.get(url);
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
-      print(OpenGraphParser(document));
-      print(OpenGraphParser(document).title);
-      Metadata data = OpenGraphParser(document).parse();
+
+      final parser = OpenGraphParser(document);
+      expect(parser.title, hasStringValue);
+      expect(parser.description, hasStringValue);
+      expect(parser.url, hasStringValue);
+      expect(parser.image, hasStringValue);
+
+      Metadata data = parser.parse();
       expect(data.title, 'Drake - When To Say When & Chicago Freestyle');
       expect(data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
     });
 
     test('TwitterCard Parser', () async {
-      var url =
-          'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
-      var response = await http.get(url);
+      var url = 'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
-      print(response.statusCode);
 
-      print(TwitterCardParser(document));
-      print(TwitterCardParser(document).title);
-      print(TwitterCardParser(document).description);
-      print(TwitterCardParser(document).image);
-      // Test the url
-      print(TwitterCardParser(document).url);
+      final data = TwitterCardParser(document);
+      expect(data.title, hasStringValue);
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
+      expect(data.image, isNull);
     });
 
     test('Faulty', () async {
       var url = 'https://google.ca';
-      var response = await http.get(url);
+      var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
-      print(response.statusCode);
 
-      print(OpenGraphParser(document).title);
-      print(OpenGraphParser(document).description);
-      print(OpenGraphParser(document).image);
+      final og = OpenGraphParser(document);
+      expect(og.title, isNull);
+      expect(og.description, isNull);
+      expect(og.url, isNull);
+      expect(og.image, isNull);
 
-      print(HtmlMetaParser(document).title);
-      print(HtmlMetaParser(document).description);
-      print(HtmlMetaParser(document).image);
+      final hm = HtmlMetaParser(document);
+      expect(hm.title, isNull);
+      expect(hm.description, isNull);
+      expect(hm.url, isNull);
+      expect(hm.image, isNull);
     });
   });
 
   group('extract()', () {
     test('First Test', () async {
       var data = await extract('https://flutter.dev/');
-      print(data);
-      print(data.description);
-      expect(data.toMap().isEmpty, false);
+      expect(data!.toMap(), isNot(isEmpty));
+      expect(data.title, hasStringValue);
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
     });
 
     test('FB Test', () async {
       var data = await extract('https://facebook.com/');
-      expect(data.toMap().isEmpty, false);
+      expect(data!.toMap(), isNot(isEmpty));
+      expect(data.title, hasStringValue);
+      expect(data.description, isNull);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
     });
 
     test('Youtube Test', () async {
-      Metadata data = await extract('https://www.youtube.com/watch?v=0jz0GAFNNIo');
-      expect(data.title, 'Drake - When To Say When & Chicago Freestyle');
+      Metadata? data = await extract('https://www.youtube.com/watch?v=0jz0GAFNNIo');
+      expect(data!.title, 'Drake - When To Say When & Chicago Freestyle');
       expect(data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
+
+      expect(data.description, hasStringValue);
+      expect(data.url, hasStringValue);
     });
 
     test('Unicode Test', () async {
       var data = await extract('https://www.jpf.go.jp/');
-      expect(data.toMap().isEmpty, false);
+      expect(data!.toMap(), isNot(isEmpty));
+      expect(data.title, hasStringValue);
+      expect(data.description, isNull);
+      expect(data.url, hasStringValue);
+      expect(data.image, hasStringValue);
     });
 
     test('Gooogle Test', () async {
       var data = await extract('https://google.ca');
-      expect(data.toMap().isEmpty, false);
+      expect(data!.toMap(), isNot(isEmpty));
       expect(data.title, 'google');
+      expect(data.description, hasStringValue);
+      expect(data.url, isNull);
+      expect(data.image, isNull);
     });
 
     test('Invalid Url Test', () async {
       var data = await extract('https://google');
       expect(data == null, true);
     });
-
 
     final htmlPage = '''
 <html>
@@ -198,6 +270,9 @@ void main() {
       doc.requestUrl = 'https://example.com/some/page.html';
       var data = MetadataParser.parse(doc);
       expect(data.image, equals('https://example.com/some/this/is/a/test.png'));
+      expect(data.title, 'Test');
+      expect(data.description, isNull);
+      expect(data.url, hasStringValue);
     });
 
     test(
@@ -210,6 +285,17 @@ void main() {
       doc.requestUrl = null;
       var data = MetadataParser.parse(doc);
       expect(data.image, equals('this/is/a/test.png'));
+      expect(data.title, 'Test');
+      expect(data.description, isNull);
+      expect(data.url, isNull);
     });
   });
 }
+
+class HasStringValue extends CustomMatcher {
+  HasStringValue()
+      : super('String is not empty or the value \'null\'', 'string',
+            allOf(isNotNull, isNotEmpty, isNot(contains('null'))));
+}
+
+final hasStringValue = HasStringValue();

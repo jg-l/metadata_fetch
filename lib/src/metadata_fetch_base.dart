@@ -8,7 +8,7 @@ import 'package:metadata_fetch/src/utils/util.dart';
 import 'package:string_validator/string_validator.dart';
 
 /// Fetches a [url], validates it, and returns [Metadata].
-Future<Metadata> extract(String url) async {
+Future<Metadata?> extract(String url) async {
   if (!isURL(url)) {
     return null;
   }
@@ -19,9 +19,9 @@ Future<Metadata> extract(String url) async {
   defaultOutput.description = url;
 
   // Make our network call
-  final response = await http.get(url);
+  final response = await http.get(Uri.parse(url));
 
-  if (response.headers['content-type'].startsWith(r'image/')) {
+  if (response.headers['content-type']?.startsWith(r'image/') ?? false) {
     defaultOutput.title = '';
     defaultOutput.description = '';
     defaultOutput.image = url;
@@ -34,24 +34,21 @@ Future<Metadata> extract(String url) async {
     return defaultOutput;
   }
 
-  final data = _extractMetadata(document);
-  if (data == null) {
-    return defaultOutput;
-  }
-
-  return data;
+  return _extractMetadata(document);
 }
 
 /// Takes an [http.Response] and returns a [html.Document]
-Document responseToDocument(http.Response response) {
+Document? responseToDocument(http.Response response) {
   if (response.statusCode != 200) {
     return null;
   }
 
-  Document document;
+  Document? document;
   try {
     document = parser.parse(utf8.decode(response.bodyBytes));
-    document.requestUrl = response.request.url.toString();
+    if (response.request != null) {
+      document.requestUrl = response.request!.url.toString();
+    }
   } catch (err) {
     return document;
   }
