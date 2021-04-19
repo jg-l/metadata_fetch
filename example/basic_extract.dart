@@ -1,4 +1,4 @@
-import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:metadata_extract/metadata_extract.dart';
 
 void main() async {
   var data = await extract('https://flutter.dev'); // returns a Metadata object

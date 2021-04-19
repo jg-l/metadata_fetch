@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:html/dom.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
-import 'package:metadata_fetch/metadata_fetch.dart';
-import 'package:metadata_fetch/src/parsers/parsers.dart';
-import 'package:metadata_fetch/src/utils/util.dart';
+import 'package:metadata_extract/metadata_extract.dart';
+import 'package:metadata_extract/src/parsers/parsers.dart';
+import 'package:metadata_extract/src/utils/util.dart';
 import 'package:string_validator/string_validator.dart';
 
 /// Fetches a [url], validates it, and returns [Metadata].

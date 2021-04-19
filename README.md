@@ -8,7 +8,7 @@ A dart library for extracting metadata in web pages. Supports OpenGraph, Meta, T
 ### Extract Metadata for a given URL
 
 ```dart
-import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:metadata_extract/metadata_extract.dart';
 
 main() async {
   var data = extract("https://flutter.dev/"); // Use the extract() function to fetch data from the url
@@ -32,7 +32,7 @@ This method prioritizes Open Graph data, followed by Twitter Card, JSON-LD and f
 
 
 ```dart
-import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:metadata_extract/metadata_extract.dart';
 import 'package:http/http.dart' as http;
 
 void main () async {
@@ -56,7 +56,7 @@ void main () async {
 #### Get Open Graph Metadata
 
 ```dart
-import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:metadata_extract/metadata_extract.dart';
 import 'package:http/http.dart' as http;
 
 void main () async {
@@ -79,7 +79,7 @@ void main () async {
 
 #### Get Html Metadata
 ```dart
-import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:metadata_extract/metadata_extract.dart';
 import 'package:http/http.dart' as http;
 
 void main () async {
@@ -99,7 +99,7 @@ void main () async {
 
 #### Get Structured Data (Json+LD)
 ```dart
-import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:metadata_extract/metadata_extract.dart';
 import 'package:http/http.dart' as http;
 
 void main () async {
@@ -119,7 +119,7 @@ void main () async {
 
 #### Get Twitter Cards Metadata 
 ```dart
-import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:metadata_extract/metadata_extract.dart';
 import 'package:http/http.dart' as http;
 
 void main () async {
@@ -143,7 +143,8 @@ void main () async {
 
 
 ## Credit
-This library is a fork of [https://github.com/jg-l/metadata_fetch] which was inspired by 
+This library is a fork of [https://github.com/jg-l/metadata_extract](https://github.com/jg-l/metadata_extract) which was inspired by 
 [open_graph_parser](https://github.com/Patte1808/open_graph_parser). This fork has some minor bug fixes and has been
 migrated to sound null-safety.
 
+The name of the package has been changed to allow re-publishing on pub.dev.

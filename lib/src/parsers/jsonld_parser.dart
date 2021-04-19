@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:html/dom.dart';
-import 'package:metadata_fetch/src/utils/util.dart';
+import 'package:metadata_extract/src/utils/util.dart';
 
 import 'base_parser.dart';
 

@@ -26,12 +26,7 @@ mixin BaseMetadataParser {
 /// Container class for Metadata
 class Metadata with BaseMetadataParser, MetadataKeys {
   bool get hasAllMetadata {
-    return (
-        title != null &&
-        description != null &&
-        image != null &&
-        url != null
-    );
+    return (title != null && description != null && image != null && url != null);
   }
 
   @override

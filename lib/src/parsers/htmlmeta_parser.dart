@@ -1,5 +1,5 @@
 import 'package:html/dom.dart';
-import 'package:metadata_fetch/src/utils/util.dart';
+import 'package:metadata_extract/src/utils/util.dart';
 
 import 'base_parser.dart';
 
@@ -24,8 +24,7 @@ class HtmlMetaParser with BaseMetadataParser {
 
   /// Get the [Metadata.image] from the first <img> tag in the body;s
   @override
-  String? get image =>
-      _document?.body?.querySelector('img')?.attributes.get('src');
+  String? get image => _document?.body?.querySelector('img')?.attributes.get('src');
 
   /// Get the [Document.url] from the Document extension.
   @override

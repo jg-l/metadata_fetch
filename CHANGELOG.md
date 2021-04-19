@@ -1,3 +1,9 @@
+## 1.0.0-nullsafety.0
+
+- Migrate to sound null-safety
+- Fix an issue where null map entries were being returned as 'null'
+- Added test coverage for null map entries
+
 ## 0.3.4
 
 - Fix resolution of relative URL for images

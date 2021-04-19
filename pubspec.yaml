@@ -1,7 +1,7 @@
-name: metadata_fetch
+name: metadata_extract
 description: A dart library for extracting metadata on web pages such as OpenGraph, Meta, Twitter Cards, and Structured Data (Json-LD)
 version: 1.0.0-nullsafety.0
-homepage: https://github.com/jg-l/metadata_fetch
+homepage: https://github.com/safarmer/metadata_extract
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -10,7 +10,7 @@ dependencies:
   http: ^0.13.1
   string_validator: ^0.3.0
   html: ^0.15.0
-  collection: ^1.15.0-nullsafety.4
+  collection: ^1.15.0
 
 dev_dependencies:
   pedantic: ^1.11.0
