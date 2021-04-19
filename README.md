@@ -143,15 +143,7 @@ void main () async {
 
 
 ## Credit
-This library is inspired by [open_graph_parser](https://github.com/Patte1808/open_graph_parser). 
-However this one tries to be more general.
-
-
-## Roadmap
-- Weighted or Preferred Metadata. Can assign custom weights for each parser to provide a fallback priority sytem
-- Improve Documentation
-
-
-## Questions, Bugs, and Feature Requests
-Please forward all queries about this project to the [issue tracker](https://github.com/jg-l/metadata_fetch/issues).
+This library is a fork of [https://github.com/jg-l/metadata_fetch] which was inspired by 
+[open_graph_parser](https://github.com/Patte1808/open_graph_parser). This fork has some minor bug fixes and has been
+migrated to sound null-safety.
 
