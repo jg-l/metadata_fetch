@@ -1,3 +1,7 @@
+## 1.0.0-nullsafety.1
+
+- Fix typo in README.md
+
 ## 1.0.0-nullsafety.0
 
 - Migrate to sound null-safety
