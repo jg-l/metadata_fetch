@@ -5,12 +5,12 @@ import 'base_parser.dart';
 
 /// Takes a [http.Document] and parses [Metadata] from [<meta property='twitter:*'>] tags
 class TwitterCardParser with BaseMetadataParser {
-  final Document _document;
+  final Document? _document;
   TwitterCardParser(this._document);
 
   /// Get [Metadata.title] from 'twitter:title'
   @override
-  String get title =>
+  String? get title =>
       getProperty(
         _document,
         attribute: 'name',
@@ -23,7 +23,7 @@ class TwitterCardParser with BaseMetadataParser {
 
   /// Get [Metadata.description] from 'twitter:description'
   @override
-  String get description =>
+  String? get description =>
       getProperty(
         _document,
         attribute: 'name',
@@ -36,7 +36,7 @@ class TwitterCardParser with BaseMetadataParser {
 
   /// Get [Metadata.image] from 'twitter:image'
   @override
-  String get image =>
+  String? get image =>
       getProperty(
         _document,
         attribute: 'name',
@@ -49,7 +49,7 @@ class TwitterCardParser with BaseMetadataParser {
 
   /// Get [Document.url]
   @override
-  String get url => _document?.requestUrl;
+  String? get url => _document?.requestUrl;
 
   @override
   String toString() => parse().toString();
