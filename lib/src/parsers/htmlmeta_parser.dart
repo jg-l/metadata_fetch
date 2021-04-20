@@ -24,7 +24,8 @@ class HtmlMetaParser with BaseMetadataParser {
 
   /// Get the [Metadata.image] from the first <img> tag in the body;s
   @override
-  String? get image => _document?.body?.querySelector('img')?.attributes.get('src');
+  String? get image =>
+      _document?.body?.querySelector('img')?.attributes.get('src');
 
   /// Get the [Document.url] from the Document extension.
   @override

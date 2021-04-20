@@ -88,7 +88,8 @@ void main() {
     });
 
     test('JSONLD II', () async {
-      var url = 'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
+      var url =
+          'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
       var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
       // print(response.statusCode);
@@ -158,13 +159,15 @@ void main() {
 
       final data = OpenGraphParser(document);
       expect(data.title, 'Drake - When To Say When & Chicago Freestyle');
-      expect(data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
+      expect(
+          data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
       expect(data.description, hasStringValue);
       expect(data.url, url);
     });
 
     test('TwitterCard Parser', () async {
-      var url = 'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
+      var url =
+          'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
       var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
 
@@ -215,9 +218,11 @@ void main() {
     });
 
     test('Youtube Test', () async {
-      Metadata? data = await extract('https://www.youtube.com/watch?v=0jz0GAFNNIo');
+      Metadata? data =
+          await extract('https://www.youtube.com/watch?v=0jz0GAFNNIo');
       expect(data!.title, 'Drake - When To Say When & Chicago Freestyle');
-      expect(data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
+      expect(
+          data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
 
       expect(data.description, hasStringValue);
       expect(data.url, hasStringValue);

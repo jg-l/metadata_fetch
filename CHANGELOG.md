@@ -1,3 +1,7 @@
+## 1.0.0
+
+- Fix formatting
+
 ## 1.0.0-nullsafety.4
 
 - Update README.md

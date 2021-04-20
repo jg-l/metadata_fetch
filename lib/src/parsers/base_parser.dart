@@ -38,7 +38,10 @@ class Metadata {
   });
 
   bool get hasAllMetadata {
-    return (title != null && description != null && image != null && url != null);
+    return (title != null &&
+        description != null &&
+        image != null &&
+        url != null);
   }
 
   @override
