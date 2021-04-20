@@ -1,8 +1,7 @@
 import 'package:metadata_extract/metadata_extract.dart';
 import 'package:html/parser.dart' as html;
 import 'package:http/http.dart' as http;
-import 'package:metadata_extract/src/parsers/jsonld_parser.dart';
-import 'package:metadata_extract/src/parsers/parsers.dart';
+
 import 'package:metadata_extract/src/utils/util.dart';
 import 'package:test/test.dart';
 
@@ -97,7 +96,7 @@ void main() {
       final data = JsonLdParser(document);
       expect(data.title, hasStringValue);
       expect(data.description, hasStringValue);
-      expect(data.url, hasStringValue);
+      expect(data.url, url);
       expect(data.image, hasStringValue);
     });
 
@@ -111,7 +110,7 @@ void main() {
       final data = JsonLdParser(document);
       expect(data.title, hasStringValue);
       expect(data.description, hasStringValue);
-      expect(data.url, hasStringValue);
+      expect(data.url, url);
       expect(data.image, hasStringValue);
     });
 
@@ -124,7 +123,7 @@ void main() {
       var data = JsonLdParser(document);
       expect(data.title, hasStringValue);
       expect(data.description, isNull);
-      expect(data.url, hasStringValue);
+      expect(data.url, url);
       expect(data.image, hasStringValue);
     });
     test('HTML', () async {
@@ -136,19 +135,19 @@ void main() {
 
       expect(data.title, hasStringValue);
       expect(data.description, isNull);
-      expect(data.url, hasStringValue);
+      expect(data.url, url);
       expect(data.image, hasStringValue);
     });
 
     test('OpenGraph Parser', () async {
-      var url = 'https://flutter.dev';
+      var url = 'https://flutter.dev/';
       var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
 
       var data = OpenGraphParser(document);
       expect(data.title, hasStringValue);
       expect(data.description, hasStringValue);
-      expect(data.url, hasStringValue);
+      expect(data.url, url);
       expect(data.image, hasStringValue);
     });
 
@@ -157,17 +156,11 @@ void main() {
       var response = await http.get(Uri.parse(url));
       var document = responseToDocument(response);
 
-      final parser = OpenGraphParser(document);
-      expect(parser.title, hasStringValue);
-      expect(parser.description, hasStringValue);
-      expect(parser.url, hasStringValue);
-      expect(parser.image, hasStringValue);
-
-      Metadata data = parser.parse();
+      final data = OpenGraphParser(document);
       expect(data.title, 'Drake - When To Say When & Chicago Freestyle');
       expect(data.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
       expect(data.description, hasStringValue);
-      expect(data.url, hasStringValue);
+      expect(data.url, url);
     });
 
     test('TwitterCard Parser', () async {
@@ -178,7 +171,7 @@ void main() {
       final data = TwitterCardParser(document);
       expect(data.title, hasStringValue);
       expect(data.description, hasStringValue);
-      expect(data.url, hasStringValue);
+      expect(data.url, url);
       expect(data.image, isNull);
     });
 
@@ -203,11 +196,12 @@ void main() {
 
   group('extract()', () {
     test('First Test', () async {
-      var data = await extract('https://flutter.dev/');
+      final url = 'https://flutter.dev/';
+      var data = await extract(url);
       expect(data!.toMap(), isNot(isEmpty));
       expect(data.title, hasStringValue);
       expect(data.description, hasStringValue);
-      expect(data.url, hasStringValue);
+      expect(data.url, url);
       expect(data.image, hasStringValue);
     });
 
@@ -289,6 +283,43 @@ void main() {
       expect(data.description, isNull);
       expect(data.url, isNull);
     });
+  });
+
+  group('full urls', () {
+    final parserTypes = {
+      OpenGraphParser: (doc) => OpenGraphParser(doc),
+      JsonLdParser: (doc) => JsonLdParser(doc),
+      HtmlMetaParser: (doc) => HtmlMetaParser(doc),
+      TwitterCardParser: (doc) => TwitterCardParser(doc),
+    };
+
+    const urls = <String>[
+      'https://www.sonder.com/destinations/new_orleans/Sonder-Constance-Lofts-Desirable-1BR-Gym/c19723',
+      'https://abnb.me/z16mAG6UAfb',
+      // TODO(safarmer): support Airbnb link previews.
+      // 'https://www.airbnb.com.au/rooms/15549396',
+    ];
+
+    for (var url in urls) {
+      group(url, () {
+        test('extract', () async {
+          final data = await extract(url);
+          expect(data, isNotNull);
+          expect(data!.url, url);
+        });
+
+        for (var type in parserTypes.keys) {
+          final parser = parserTypes[type]!;
+
+          test(type.toString(), () async {
+            final response = await http.get(Uri.parse(url));
+            var document = responseToDocument(response);
+            final data = parser(document);
+            print(data);
+          });
+        }
+      });
+    }
   });
 }
 

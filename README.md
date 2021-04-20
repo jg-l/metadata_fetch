@@ -1,5 +1,7 @@
-# Metadata Fetch
+# Metadata Extract
 A dart library for extracting metadata in web pages. Supports OpenGraph, Meta, Twitter Cards, and Structured Data (Json-LD)
+
+This version was forked from the original [metadata_fetc](https://github.com/jg-l/metadata_extract).
 
 
 ## Usage

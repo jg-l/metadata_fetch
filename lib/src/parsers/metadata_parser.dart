@@ -1,29 +1,46 @@
 import 'package:html/dom.dart';
-import 'package:metadata_extract/metadata_extract.dart';
+
+import 'base_parser.dart';
+import 'parsers.dart';
+
+typedef ParseFunction<T extends BaseMetadataParser> = T Function(Document? doc);
 
 /// Does Works with `BaseMetadataParser`
 class MetadataParser {
   /// This is the default strategy for building our [Metadata]
   ///
   /// It tries [OpenGraphParser], then [TwitterCardParser], then [JsonLdParser], and falls back to [HTMLMetaParser] tags for missing data.
-  static Metadata parse(Document? document) {
-    final output = Metadata();
+  static Metadata parse(
+    Document? document, {
+    List<Type> order = const <Type>[
+      OpenGraphParser,
+      TwitterCardParser,
+      JsonLdParser,
+      HtmlMetaParser,
+    ],
+  }) {
+    var output = Metadata();
 
-    final parsers = [
-      openGraph(document),
-      twitterCard(document),
-      jsonLdSchema(document),
-      htmlMeta(document),
-    ];
+    final parsers = <Type, ParseFunction>{
+      OpenGraphParser: (doc) => OpenGraphParser(doc),
+      TwitterCardParser: (doc) => TwitterCardParser(doc),
+      JsonLdParser: (doc) => JsonLdParser(doc),
+      HtmlMetaParser: (doc) => HtmlMetaParser(doc),
+    };
 
-    for (final p in parsers) {
-      output.title ??= p.title;
-      output.description ??= p.description;
-      output.image ??= p.image;
-      output.url ??= p.url;
+    for (final key in order) {
+      final metadata = parsers[key]?.call(document).parse();
+      if (metadata == null) {
+        continue;
+      }
 
-      if (output.hasAllMetadata) {
-        break;
+      output.merge(metadata);
+
+      // Make sure we use the most specific URL for the resource. OpenGraph is not necessarilly
+      // going to return the full URL.
+      final url = output.url;
+      if (url != null && metadata.url!.length > url.length) {
+        output.url = metadata.url;
       }
     }
 

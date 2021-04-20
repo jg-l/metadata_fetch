@@ -1,3 +1,11 @@
+## 1.0.0-nullsafety.2
+
+- Update readme to be consistent with fork name
+- Update examples
+- Refactor code slightly to simplify things
+- Added ordering to parsers
+- Added a check to ensure we provide the most specific available URL
+
 ## 1.0.0-nullsafety.1
 
 - Fix typo in README.md

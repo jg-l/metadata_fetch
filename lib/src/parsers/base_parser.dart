@@ -1,10 +1,10 @@
 /// The base class for implementing a parser
 
-mixin MetadataKeys {
-  static const keyTitle = 'title';
-  static const keyDescription = 'description';
-  static const keyImage = 'image';
-  static const keyUrl = 'url';
+class MetadataKeys {
+  static const title = 'title';
+  static const description = 'description';
+  static const image = 'image';
+  static const url = 'url';
 }
 
 mixin BaseMetadataParser {
@@ -14,17 +14,29 @@ mixin BaseMetadataParser {
   String? url;
 
   Metadata parse() {
-    final m = Metadata();
-    m.title = title;
-    m.description = description;
-    m.image = image;
-    m.url = url;
-    return m;
+    return Metadata(
+      title: title,
+      description: description,
+      image: image,
+      url: url,
+    );
   }
 }
 
 /// Container class for Metadata
-class Metadata with BaseMetadataParser, MetadataKeys {
+class Metadata {
+  String? title;
+  String? description;
+  String? image;
+  String? url;
+
+  Metadata({
+    this.title,
+    this.description,
+    this.image,
+    this.url,
+  });
+
   bool get hasAllMetadata {
     return (title != null && description != null && image != null && url != null);
   }
@@ -36,10 +48,10 @@ class Metadata with BaseMetadataParser, MetadataKeys {
 
   Map<String, String?> toMap() {
     return {
-      MetadataKeys.keyTitle: title,
-      MetadataKeys.keyDescription: description,
-      MetadataKeys.keyImage: image,
-      MetadataKeys.keyUrl: url,
+      MetadataKeys.title: title,
+      MetadataKeys.description: description,
+      MetadataKeys.image: image,
+      MetadataKeys.url: url,
     };
   }
 
@@ -47,12 +59,40 @@ class Metadata with BaseMetadataParser, MetadataKeys {
     return toMap();
   }
 
+  Metadata copyFrom(Metadata other) => copyWith(
+        title: other.title,
+        description: other.description,
+        image: other.image,
+        url: other.url,
+      );
+
+  Metadata merge(Metadata other) {
+    title ??= other.title;
+    description ??= other.description;
+    image ??= other.image;
+    url ??= other.url;
+    return this;
+  }
+
+  Metadata copyWith({
+    String? title,
+    String? description,
+    String? image,
+    String? url,
+  }) =>
+      Metadata(
+        title: title ?? this.title,
+        description: description ?? this.description,
+        image: image ?? this.image,
+        url: url ?? this.url,
+      );
+
   static Metadata fromJson(Map<String, dynamic> json) {
-    final m = Metadata();
-    m.title = json[MetadataKeys.keyTitle];
-    m.description = json[MetadataKeys.keyDescription];
-    m.image = json[MetadataKeys.keyImage];
-    m.url = json[MetadataKeys.keyUrl];
-    return m;
+    return Metadata(
+      title: json[MetadataKeys.title],
+      description: json[MetadataKeys.description],
+      image: json[MetadataKeys.image],
+      url: json[MetadataKeys.url],
+    );
   }
 }

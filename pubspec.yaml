@@ -1,6 +1,6 @@
 name: metadata_extract
 description: A dart library for extracting metadata on web pages such as OpenGraph, Meta, Twitter Cards, and Structured Data (Json-LD)
-version: 1.0.0-nullsafety.1
+version: 1.0.0-nullsafety.2
 homepage: https://github.com/safarmer/metadata_extract
 
 environment:

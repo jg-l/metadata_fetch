@@ -14,9 +14,10 @@ Future<Metadata?> extract(String url) async {
   }
 
   /// Sane defaults; Always return the Domain name as the [title], and a [description] for a given [url]
-  final defaultOutput = Metadata();
-  defaultOutput.title = getDomain(url);
-  defaultOutput.description = url;
+  final defaultOutput = Metadata(
+    title: getDomain(url),
+    description: url,
+  );
 
   // Make our network call
   final response = await http.get(Uri.parse(url));
