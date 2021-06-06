@@ -6,7 +6,8 @@ void main() async {
   var response = await http.get(Uri.parse(url));
   var document = MetadataFetch.responseToDocument(response);
 
-  var data = MetadataParser.parse(document);
+  // Provide a url fallback if no urls were extracted
+  var data = MetadataParser.parse(document, url: url);
   print(data);
 
   // Just Opengraph
