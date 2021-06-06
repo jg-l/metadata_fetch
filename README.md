@@ -1,6 +1,9 @@
 # Metadata Fetch
 A dart library for extracting metadata in web pages. Supports OpenGraph, Meta, Twitter Cards, and Structured Data (Json-LD)
 
+Available on Pub Dev:
+[Pub](https://pub.dev/packages/metadata_fetch)
+
 ## Metadata Structure
 
 ```yaml
@@ -129,7 +132,7 @@ void main () async {
 
   // get aggregated metadata, supplying a fallback URL
   // Used for images with relative URLs
-  var data = MetadataParser.parse(document, myURL);
+  var data = MetadataParser.parse(document, url:myURL);
   print(data);
 
 }
