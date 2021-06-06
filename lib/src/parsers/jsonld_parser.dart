@@ -76,10 +76,6 @@ class JsonLdParser with BaseMetadataParser {
     return null;
   }
 
-  /// Get the document request URL from Document's [HttpRequestData] extension.
-  @override
-  String? get url => document?.requestUrl;
-
   @override
   String toString() => parse().toString();
 }

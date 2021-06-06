@@ -1,4 +1,5 @@
 import 'package:html/dom.dart';
+import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:metadata_fetch/src/utils/util.dart';
 
 import 'base_parser.dart';
@@ -47,9 +48,9 @@ class TwitterCardParser with BaseMetadataParser {
         property: 'twitter:image',
       );
 
-  /// Get [Document.url]
+  /// Twitter Cards do not have a url property so get the url from [og:url], if available.
   @override
-  String? get url => _document?.requestUrl;
+  String? get url => OpenGraphParser(_document).url;
 
   @override
   String toString() => parse().toString();

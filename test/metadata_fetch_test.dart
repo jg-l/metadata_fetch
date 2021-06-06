@@ -3,86 +3,85 @@ import 'package:html/parser.dart' as html;
 import 'package:http/http.dart' as http;
 import 'package:metadata_fetch/src/parsers/jsonld_parser.dart';
 import 'package:metadata_fetch/src/parsers/parsers.dart';
-import 'package:metadata_fetch/src/utils/util.dart';
 import 'package:test/test.dart';
 
 // TODO: Use a Mock Server for testing
 // TODO: Improve testing
 void main() {
   test('JSON Serialization', () async {
-    var url = 'https://flutter.dev';
-    var response = await http.get(Uri.parse(url));
-    var document = responseToDocument(response);
-    var data = MetadataParser.parse(document);
+    final url = 'https://flutter.dev';
+    final response = await http.get(Uri.parse(url));
+    final document = MetadataFetch.responseToDocument(response);
+    final data = MetadataParser.parse(document);
     print(data.toJson());
     expect(data.toJson().isNotEmpty, true);
   });
 
   test('Metadata Parser', () async {
-    var url = 'https://flutter.dev';
-    var response = await http.get(Uri.parse(url));
-    var document = responseToDocument(response);
+    final url = 'https://flutter.dev';
+    final response = await http.get(Uri.parse(url));
+    final document = MetadataFetch.responseToDocument(response);
 
-    var data = MetadataParser.parse(document);
+    final data = MetadataParser.parse(document);
     print(data);
 
     // Just Opengraph
-    var og = MetadataParser.openGraph(document);
+    final og = MetadataParser.openGraph(document);
     print('OG $og');
 
     // Just Html
-    var hm = MetadataParser.htmlMeta(document);
+    final hm = MetadataParser.htmlMeta(document);
     print('Html $hm');
 
     // Just Json-ld schema
-    var js = MetadataParser.jsonLdSchema(document);
+    final js = MetadataParser.jsonLdSchema(document);
     print('JSON $js');
 
-    var twitter = MetadataParser.twitterCard(document);
+    final twitter = MetadataParser.twitterCard(document);
     print('Twitter $twitter');
   });
   group('Metadata parsers', () {
     test('JSONLD', () async {
-      var url = 'https://www.epicurious.com/';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final url = 'https://www.epicurious.com/';
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       // print(response.statusCode);
 
       print(JsonLdParser(document));
     });
 
     test('JSONLD II', () async {
-      var url =
+      final url =
           'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       // print(response.statusCode);
 
       print(JsonLdParser(document));
     });
 
     test('JSONLD III', () async {
-      var url =
+      final url =
           'https://medium.com/@quicky316/install-flutter-sdk-on-windows-without-android-studio-102fdf567ce4';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       // print(response.statusCode);
 
       print(JsonLdParser(document));
     });
 
     test('JSONLD IV', () async {
-      var url = 'https://www.distilled.net/';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final url = 'https://www.distilled.net/';
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       // print(response.statusCode);
 
       print(JsonLdParser(document));
     });
     test('HTML', () async {
-      var url = 'https://flutter.dev';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final url = 'https://flutter.dev';
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       print(response.statusCode);
 
       print(HtmlMetaParser(document).title);
@@ -91,9 +90,9 @@ void main() {
     });
 
     test('OpenGraph Parser', () async {
-      var url = 'https://flutter.dev';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final url = 'https://flutter.dev';
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       print(response.statusCode);
 
       print(OpenGraphParser(document));
@@ -104,8 +103,8 @@ void main() {
 
     test('OpenGraph Youtube Test', () async {
       String url = 'https://www.youtube.com/watch?v=0jz0GAFNNIo';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       print(OpenGraphParser(document));
       print(OpenGraphParser(document).title);
       Metadata data = OpenGraphParser(document).parse();
@@ -115,10 +114,10 @@ void main() {
     });
 
     test('TwitterCard Parser', () async {
-      var url =
+      final url =
           'https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       print(response.statusCode);
 
       print(TwitterCardParser(document));
@@ -130,9 +129,9 @@ void main() {
     });
 
     test('Faulty', () async {
-      var url = 'https://google.ca';
-      var response = await http.get(Uri.parse(url));
-      var document = responseToDocument(response);
+      final url = 'https://google.ca';
+      final response = await http.get(Uri.parse(url));
+      final document = MetadataFetch.responseToDocument(response);
       print(response.statusCode);
 
       print(OpenGraphParser(document).title);
@@ -145,40 +144,43 @@ void main() {
     });
   });
 
-  group('extract()', () {
+  group('MetadataFetch.extract()', () {
     test('First Test', () async {
-      var data = await extract('https://flutter.dev/');
+      final url = 'https://flutter.dev';
+      final data = await MetadataFetch.extract(url);
       print(data);
       print(data?.description);
+      print(data?.url);
       expect(data?.toMap().isEmpty, false);
+      expect(data?.url, url + "/");
     });
 
     test('FB Test', () async {
-      var data = await extract('https://facebook.com/');
+      final data = await MetadataFetch.extract('https://facebook.com/');
       expect(data?.toMap().isEmpty, false);
     });
 
     test('Youtube Test', () async {
-      Metadata? data =
-          await extract('https://www.youtube.com/watch?v=0jz0GAFNNIo');
+      Metadata? data = await MetadataFetch.extract(
+          'https://www.youtube.com/watch?v=0jz0GAFNNIo');
       expect(data?.title, 'Drake - When To Say When & Chicago Freestyle');
       expect(
           data?.image, 'https://i.ytimg.com/vi/0jz0GAFNNIo/maxresdefault.jpg');
     });
 
     test('Unicode Test', () async {
-      var data = await extract('https://www.jpf.go.jp/');
+      final data = await MetadataFetch.extract('https://www.jpf.go.jp/');
       expect(data?.toMap().isEmpty, false);
     });
 
     test('Gooogle Test', () async {
-      var data = await extract('https://google.ca');
+      final data = await MetadataFetch.extract('https://google.ca');
       expect(data?.toMap().isEmpty, false);
       expect(data?.title, 'google');
     });
 
     test('Invalid Url Test', () async {
-      var data = await extract('https://google');
+      final data = await MetadataFetch.extract('https://google');
       expect(data == null, true);
     });
 
@@ -197,8 +199,9 @@ void main() {
         "Image url without slash at beginning still results in valid url when falling back to html parser",
         () {
       final doc = html.parse(htmlPage);
-      doc.requestUrl = 'https://example.com/some/page.html';
-      var data = MetadataParser.parse(doc);
+      // Provide a url to be used as a fallback, when no url metadata is extracted from the Document.
+      // Useful for relative images
+      var data = MetadataParser.parse(doc, url: 'https://example.com/some/');
       expect(data.image, equals('https://example.com/some/this/is/a/test.png'));
     });
 
@@ -206,11 +209,7 @@ void main() {
         "MetadataParser.parse(doc) works without a doc.requestUrl (relative URLs are just not resolved)",
         () {
       final doc = html.parse(htmlPage);
-      // XXX: This is sadly needed because doc.requestUrl is a global shared for
-      // all Document instances, so the value parsed in previous tests is
-      // still present.
-      doc.requestUrl = null;
-      var data = MetadataParser.parse(doc);
+      final data = MetadataParser.parse(doc);
       expect(data.image, equals('this/is/a/test.png'));
     });
   });

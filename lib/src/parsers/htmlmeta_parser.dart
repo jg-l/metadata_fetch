@@ -1,4 +1,5 @@
 import 'package:html/dom.dart';
+import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:metadata_fetch/src/utils/util.dart';
 
 import 'base_parser.dart';
@@ -26,10 +27,6 @@ class HtmlMetaParser with BaseMetadataParser {
   @override
   String? get image =>
       _document?.body?.querySelector('img')?.attributes.get('src');
-
-  /// Get the [Document.url] from the Document extension.
-  @override
-  String? get url => _document?.requestUrl;
 
   @override
   String toString() => parse().toString();

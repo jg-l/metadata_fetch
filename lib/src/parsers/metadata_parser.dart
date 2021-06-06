@@ -6,7 +6,9 @@ class MetadataParser {
   /// This is the default strategy for building our [Metadata]
   ///
   /// It tries [OpenGraphParser], then [TwitterCardParser], then [JsonLdParser], and falls back to [HTMLMetaParser] tags for missing data.
-  static Metadata parse(Document? document) {
+  /// You may optionally provide a URL to the function, used to resolve relative images or to compensate for the lack of URI identifiers
+  /// from the metadata parsers.
+  static Metadata parse(Document? document, {String? url}) {
     final output = Metadata();
 
     final parsers = [
@@ -26,10 +28,12 @@ class MetadataParser {
         break;
       }
     }
-    final url = output.url;
+    // If the parsers did not extract a URL from the metadata, use the given
+    // url, if available. This is used to attempt to resolve relative images.
+    final _url = output.url ?? url;
     final image = output.image;
-    if (url != null && image != null) {
-      output.image = Uri.parse(url).resolve(image).toString();
+    if (_url != null && image != null) {
+      output.image = Uri.parse(_url).resolve(image).toString();
     }
 
     return output;

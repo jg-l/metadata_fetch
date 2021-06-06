@@ -1,6 +1,15 @@
 # Metadata Fetch
 A dart library for extracting metadata in web pages. Supports OpenGraph, Meta, Twitter Cards, and Structured Data (Json-LD)
 
+## Metadata Structure
+
+```yaml
+Metadata:
+  - title
+  - description
+  - image
+  - url
+```
 
 ## Usage
 
@@ -11,7 +20,10 @@ A dart library for extracting metadata in web pages. Supports OpenGraph, Meta, T
 import 'package:metadata_fetch/metadata_fetch.dart';
 
 main() async {
-  var data = extract("https://flutter.dev/"); // Use the extract() function to fetch data from the url
+  final myURL = 'https://flutter.dev';
+
+  // Use the `MetadataFetch.extract()` function to fetch data from the url
+  var data = await MetadataFetch.extract(myURL); 
 
   print(data.title) // Flutter - Beautiful native apps in record time
 
@@ -19,7 +31,10 @@ main() async {
 
   print(data.image) // https://flutter.dev/images/flutter-logo-sharing.png
 
+  print(data.url) // https://flutter.dev/
+
   var dataAsMap = data.toMap();
+
 
 }
 ```
@@ -28,7 +43,7 @@ main() async {
 
 #### Get aggregated Metadata from a document
 
-This method prioritizes Open Graph data, followed by Twitter Card, JSON-LD and finally falls back too HTML metadata.
+This method prioritizes Open Graph data, followed by Twitter Card, JSON-LD and finally falls back to HTML metadata.
 
 
 ```dart
@@ -37,14 +52,16 @@ import 'package:http/http.dart' as http;
 
 void main () async {
 
-  // Makes a call
-  var response = await http.get('https://flutter.dev');
+  final myURL = 'https://flutter.dev';
 
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
-  var document = responseToDocument(response);
+  // makes a call
+  var response = await http.get(myURL);
+
+  // Covert Response to a Document. The utility function `MetadataFetch.responseToDocument` is provided or you can use own decoder/parser.
+  var document = MetadataFetch.responseToDocument(response);
 
 
-  // get metadata
+  // get aggregated metadata
   var data = MetadataParser.parse(document);
   print(data);
 
@@ -53,7 +70,7 @@ void main () async {
 
 ```
 
-#### Get Open Graph Metadata
+#### Manually specify which Metadata parser to use
 
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
@@ -61,81 +78,64 @@ import 'package:http/http.dart' as http;
 
 void main () async {
 
+  final myURL = 'https://flutter.dev';
+
   // Makes a call
-  var response = await http.get('https://flutter.dev');
+  var response = await http.get(myURL);
 
   // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
   var document = responseToDocument(response);
 
 
-  // get metadata
-  var data = MetadataParser.OpenGraph(document);
-  print(data);
+  // Get OpenGraph Metadata
+  var ogData = MetadataParser.OpenGraph(document);
+  print(ogData);
 
+  // Get Html metadata
+  var htmlData = MetadataParser.HtmlMeta(document);
+  print(htmlData);
+
+  // Get Structured Data
+  var structuredData = MetadataParser.JsonLdSchema(document);
+  print(structuredData);
+
+  // Get Twitter Cards Data
+  var  twitterCardData = MetadataParser.TwitterCard(document);
+  print(twitterCardData);
 
 }
-
 ```
 
-#### Get Html Metadata
+#### Provide a fallback url when manually parsing
+
+If the parsers cannot extract a URL from the document, you may optionally provide a URL in `MetadataFetch.parse()`. 
+
+This URL will be added in the final `Metadata` structure, and is used to resolve images with relative URLs (non-absolute URLs).
+
 ```dart
 import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:http/http.dart' as http;
 
 void main () async {
 
-  // Makes a call
-  var response = await http.get('https://flutter.dev');
+  final myURL = 'https://flutter.dev';
 
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
-  var document = responseToDocument(response);
+  // makes a call
+  var response = await http.get(myURL);
+
+  // Covert Response to a Document. The utility function `MetadataFetch.responseToDocument` is provided or you can use own decoder/parser.
+  var document = MetadataFetch.responseToDocument(response);
 
 
-  // get metadata
-  var data = MetadataParser.HtmlMeta(document);
+  // get aggregated metadata, supplying a fallback URL
+  // Used for images with relative URLs
+  var data = MetadataParser.parse(document, myURL);
   print(data);
+
 }
+
 ```
 
-#### Get Structured Data (Json+LD)
-```dart
-import 'package:metadata_fetch/metadata_fetch.dart';
-import 'package:http/http.dart' as http;
-
-void main () async {
-
-  // Makes a call
-  var response = await http.get('https://flutter.dev');
-
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
-  var document = responseToDocument(response);
-
-
-  // Just Json-ld schema
-  var data = MetadataParser.JsonLdSchema(document);
-  print(data);
-}
-```
-
-#### Get Twitter Cards Metadata 
-```dart
-import 'package:metadata_fetch/metadata_fetch.dart';
-import 'package:http/http.dart' as http;
-
-void main () async {
-
-  // Makes a call
-  var response = await http.get('https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article');
-
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
-  var document = responseToDocument(response);
-
-
-  // Get Twitter Card metadata
-  var data = MetadataParser.TwitterCard(document);
-  print(data);
-}
-```
 
 
 
