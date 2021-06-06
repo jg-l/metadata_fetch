@@ -1,3 +1,8 @@
+## 0.4.0
+
+- NNBD (Null Safety) enabled
+- Various API improvements
+
 ## 0.3.4
 
 - Fix resolution of relative URL for images
