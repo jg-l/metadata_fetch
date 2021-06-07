@@ -17,11 +17,10 @@ class HtmlMetaParser with BaseMetadataParser {
 
   /// Get the [Metadata.description] from the <meta name="description" content=""> tag
   @override
-  String? get description => getProperty(
-        _document,
-        attribute: 'name',
-        property: 'og:url',
-      );
+  String? get description => _document?.head
+      ?.querySelector("meta[name='description']")
+      ?.attributes
+      .get('content');
 
   /// Get the [Metadata.image] from the first <img> tag in the body;s
   @override
