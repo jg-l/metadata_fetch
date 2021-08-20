@@ -42,7 +42,7 @@ void main () async {
   // Makes a call
   var response = await http.get('https://flutter.dev');
 
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  // Convert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
   var document = responseToDocument(response);
 
 
@@ -66,7 +66,7 @@ void main () async {
   // Makes a call
   var response = await http.get('https://flutter.dev');
 
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  // Convert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
   var document = responseToDocument(response);
 
 
@@ -89,7 +89,7 @@ void main () async {
   // Makes a call
   var response = await http.get('https://flutter.dev');
 
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  // Convert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
   var document = responseToDocument(response);
 
 
@@ -109,7 +109,7 @@ void main () async {
   // Makes a call
   var response = await http.get('https://flutter.dev');
 
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  // Convert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
   var document = responseToDocument(response);
 
 
@@ -129,7 +129,7 @@ void main () async {
   // Makes a call
   var response = await http.get('https://www.epicurious.com/expert-advice/best-soy-sauce-chefs-pick-article');
 
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  // Convert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
   var document = responseToDocument(response);
 
 
