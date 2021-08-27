@@ -60,7 +60,7 @@ void main () async {
   // makes a call
   var response = await http.get(myURL);
 
-  // Covert Response to a Document. The utility function `MetadataFetch.responseToDocument` is provided or you can use own decoder/parser.
+  // Convert Response to a Document. The utility function `MetadataFetch.responseToDocument` is provided or you can use own decoder/parser.
   var document = MetadataFetch.responseToDocument(response);
 
 
@@ -86,7 +86,7 @@ void main () async {
   // Makes a call
   var response = await http.get(myURL);
 
-  // Covert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
+  // Convert Response to a Document. The utility function `responseToDocument` is provided or you can use own decoder/parser.
   var document = responseToDocument(response);
 
 
@@ -126,7 +126,7 @@ void main () async {
   // makes a call
   var response = await http.get(myURL);
 
-  // Covert Response to a Document. The utility function `MetadataFetch.responseToDocument` is provided or you can use own decoder/parser.
+  // Convert Response to a Document. The utility function `MetadataFetch.responseToDocument` is provided or you can use own decoder/parser.
   var document = MetadataFetch.responseToDocument(response);
 
 
