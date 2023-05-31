@@ -20,7 +20,7 @@ class MetadataFetch {
     defaultOutput.description = url;
 
     // Make our network call
-    final response = await http.get(Uri.parse(url));
+    final response = await http.get(Uri.parse(url), headers: {'User-Agent': 'Googlebot'});
     final headerContentType = response.headers['content-type'];
 
     if (headerContentType != null && headerContentType.startsWith(r'image/')) {
