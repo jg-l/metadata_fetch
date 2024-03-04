@@ -5,14 +5,14 @@ import 'package:html/parser.dart' as parser;
 import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:metadata_fetch/src/parsers/parsers.dart';
 import 'package:metadata_fetch/src/utils/util.dart';
-import 'package:string_validator/string_validator.dart';
+// import 'package:string_validator/string_validator.dart';
 
 class MetadataFetch {
   /// Fetches a [url], validates it, and returns [Metadata].
   static Future<Metadata?> extract(String url) async {
-    if (!isURL(url)) {
-      return null;
-    }
+    // if (!isURL(url)) {
+    //   return null;
+    // }
 
     /// Sane defaults; Always return the Domain name as the [title], and a [description] for a given [url]
     final defaultOutput = Metadata();
