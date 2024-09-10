@@ -1,3 +1,12 @@
+## 0.4.2
+- Updated SDK constraint to `">=2.12.0 <4.0.0"`
+- Updated dependencies:
+  - `http` from `^0.13.3` to `^1.2.2`
+  - `string_validator` from `^0.3.0` to `^1.1.0`
+  - `html` from `^0.15.0` to `^0.15.4`
+  - Replaced `pedantic` with `lints` `^4.0.0`
+  - `test` from `^1.17.5` to `^1.25.8`
+
 ## 0.4.1
 - Improve Documentation 
 
