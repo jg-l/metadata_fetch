@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:html/dom.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
+import 'package:http_parser/http_parser.dart' show MediaType;
 import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:metadata_fetch/src/parsers/parsers.dart';
 import 'package:metadata_fetch/src/utils/util.dart';
@@ -52,12 +53,25 @@ class MetadataFetch {
 
     Document? document;
     try {
-      document = parser.parse(utf8.decode(response.bodyBytes));
+      final charset =
+          _getCharsetFromContentType(response.headers['content-type'] ?? '');
+      ///validate if charset is utf-8 
+      final decodedBody = charset == 'utf-8'
+          ? utf8.decode(response.bodyBytes)
+          : latin1.decode(response.bodyBytes);
+          
+      document = parser.parse(decodedBody);
     } catch (err) {
       return document;
     }
 
     return document;
+  }
+
+  /// Extracts the character encoding (charset) from the Content-Type header.
+  static String _getCharsetFromContentType(String contentTypeHeader) {
+    final mediaType = MediaType.parse(contentTypeHeader);
+    return mediaType.parameters['charset'] ?? 'utf-8';
   }
 
   /// Returns instance of [Metadata] with data extracted from the [html.Document]
